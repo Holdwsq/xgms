@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.huel.xgms.**"/>
+    <bean id = "propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath*:db.properties</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${driverClassName}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${username}" />
+        <property name="password" value="${password}" />
+        <!-- druid 连接池的监控
+        <property name="filters" value="stat" />
+        -->
+        <!--maxActive: 最大连接数量 -->
+        <property name="maxActive" value="${maxActive}" />
+        <!--initialSize: 初始化连接 -->
+        <property name="initialSize" value="${initialSize}" />
+    </bean>
+    <!-- 配置数据源工厂 -->
+    <bean id="dataSourceFactory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--拦截器配置-->
+    <bean id="interceptorChain" class="org.jfaster.mango.interceptor.InterceptorChain">
+        <property name="interceptors">
+            <list>
+                <!--MySQL分页-->
+                <bean class="org.jfaster.mango.plugin.page.MySQLPageInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置mango对象 -->
+    <bean id="mango" class="org.jfaster.mango.operator.Mango" factory-method="newInstance">
+        <property name="dataSourceFactory" ref="dataSourceFactory" />
+        <property name="interceptorChain" ref="interceptorChain"/>
+    </bean>
+
+    <!-- 配置扫描使用@DB注解修饰的DAO类 -->
+    <bean class="org.jfaster.mango.plugin.spring.MangoDaoScanner">
+        <property name="packages">
+            <list>
+                <!-- 扫描包名 -->
+                <value>com.huel.xgms.*.dao</value>
+                <!-- <value>其他需要扫描的包</value> -->
+            </list>
+        </property>
+    </bean>
+</beans>
