@@ -1,11 +1,14 @@
 package com.huel.xgms.app.user.dao;
 
+import com.huel.xgms.app.user.bean.User;
 import org.jfaster.mango.annotation.DB;
 import org.jfaster.mango.annotation.Result;
 import org.jfaster.mango.annotation.Results;
+import org.jfaster.mango.annotation.SQL;
 
 /**
- * @author admin
+ * 用户持久层接口
+ * @author wsq
  * @date 2018/3/4
  */
 @DB(
@@ -36,4 +39,13 @@ public interface IUserDao {
             + "n_create_time, n_update_time, c_phone, c_auth, c_account_name, c_pwd, n_age";
     String ALL_COLUMNS = "c_id, " + COLUMNS;
 
+    /**
+     * 获取对应ID的用户详情信息
+     * @param userId 用户ID
+     * @return {@link User}
+     */
+    @SQL("SELECT " + ALL_COLUMNS + " FROM #table t"
+            + " where t.c_delete_flag = " + User.FLAG_DELETE_NO
+            + " AND t.c_id = :1")
+    User getUserInfo(String userId);
 }

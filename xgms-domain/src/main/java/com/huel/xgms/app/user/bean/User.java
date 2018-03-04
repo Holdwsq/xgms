@@ -9,7 +9,11 @@ import java.util.Date;
  * @date 2018/1/7
  */
 public class User implements Serializable{
+
     private static final long serialVersionUID = -4804146827693434948L;
+
+    public static final String FLAG_DELETE_NO = "0";
+    public static final String FLAG_DELETE_YES = "1";
     /**
      * 用户id
      */
@@ -55,7 +59,9 @@ public class User implements Serializable{
      */
     private String school;
     /**
-     * 删除标识 0-未删除 1-已删除
+     * 删除标识
+     * 未删除 = 0， {@linkplain FLAG_DELETE_NO}
+     * 已删除 = 1，{@linkplain FLAG_DELETE_YES}
      */
     private String deleteFlag;
     /**

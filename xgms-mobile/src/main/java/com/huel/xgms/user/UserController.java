@@ -1,6 +1,7 @@
 package com.huel.xgms.user;
 
 import com.alibaba.druid.util.StringUtils;
+import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.user.service.IUserService;
 import com.huel.xgms.httpbean.ResponseBean;
 import org.slf4j.Logger;
@@ -31,8 +32,12 @@ public class UserController {
             if (StringUtils.isEmpty(userId)){
                 throw new RuntimeException("获取用户信息失败");
             }
-            Object data = null;
-            return ResponseBean.createSuccess(data);
+            // 调用 服务 获取用户信息
+            User userInfo = userService.getUserInfo(userId);
+            if (userInfo != null){
+                userInfo.setPwd(null);
+            }
+            return ResponseBean.createSuccess(userInfo);
         }catch (Exception e){
             return ResponseBean.createError(e.getMessage());
         }

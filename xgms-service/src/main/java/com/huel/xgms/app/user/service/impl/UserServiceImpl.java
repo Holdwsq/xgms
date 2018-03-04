@@ -28,7 +28,7 @@ public class UserServiceImpl implements IUserService {
         if (StringUtils.isEmpty(userId)){
             return user;
         }
-
+        user = userDao.getUserInfo(userId);
         return null;
     }
 }

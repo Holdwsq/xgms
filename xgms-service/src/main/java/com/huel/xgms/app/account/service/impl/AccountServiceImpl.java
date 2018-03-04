@@ -47,6 +47,7 @@ public class AccountServiceImpl implements IAccountService {
         User user = new User();
         String uuid = UUIDMaker.generateUUID();
         user.setId(uuid);
+        user.setDeleteFlag(User.FLAG_DELETE_NO);
         user.setAccountName(bean.getAccountName());
         user.setPwd(bean.getPwd());
         long currentTimeMillis = System.currentTimeMillis();
