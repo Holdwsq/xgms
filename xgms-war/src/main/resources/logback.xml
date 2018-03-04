@@ -23,8 +23,8 @@
 	</appender>
 
 	<logger name="org.springframework" level="ERROR"/>
-	<logger name="com.xdja.template" level="DEBUG"/>
-	<logger name="org.jfaster.mango" level="ERROR"/>
+	<logger name="com.huel.xgms" level="DEBUG"/>
+	<logger name="org.jfaster.mango" level="DEBUG"/>
 	<logger name="com.alibaba.druid" level="ERROR"/>
 
 	<root level="DEBUG">

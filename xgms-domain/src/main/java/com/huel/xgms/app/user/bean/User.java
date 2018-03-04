@@ -1,11 +1,11 @@
-package com.huel.xgms.app.bean;
+package com.huel.xgms.app.user.bean;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author admin
- * @description
+ * 用户信息Bean
+ * @author wsq
  * @date 2018/1/7
  */
 public class User implements Serializable{
@@ -17,13 +17,13 @@ public class User implements Serializable{
     /**
      * 客户端登录账号
      */
-    private String account;
+    private String accountName;
     /**
      * 客服端登录密码
      */
     private String pwd;
     /**
-     * 用户昵称
+     * 用户姓名
      */
     private String userName;
     /**
@@ -70,16 +70,16 @@ public class User implements Serializable{
      * 是否认证 0-未认证 1-已认证
      */
     private String auth;
-    /**
-     * 年龄
-     */
-    private int age;
+
     private String birDate;
     /**
      * 手机号
      */
     private String phone;
-
+    /**
+     * 用户年龄
+     */
+    private Integer age;
     public String getId() {
         return id;
     }
@@ -88,12 +88,12 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getPwd() {
@@ -216,12 +216,11 @@ public class User implements Serializable{
         this.birDate = birDate;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
-
 }

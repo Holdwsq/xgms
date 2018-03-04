@@ -1,4 +1,4 @@
-package com.huel.xgms.app.bean;
+package com.huel.xgms.app.account.bean;
 
 /**
  * @description 用户注册Bean
@@ -9,7 +9,7 @@ public class AccountBean {
     /**
      * 用户名
      */
-    private String account;
+    private String accountName;
     /**
      * 密码
      */
@@ -23,12 +23,12 @@ public class AccountBean {
      */
     private String userId;
 
-    public String getAccount() {
-        return account;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getPwd() {

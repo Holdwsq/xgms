@@ -52,7 +52,7 @@
         <property name="packages">
             <list>
                 <!-- 扫描包名 -->
-                <value>com.huel.xgms.*.dao</value>
+                <value>com.huel.xgms</value>
                 <!-- <value>其他需要扫描的包</value> -->
             </list>
         </property>
