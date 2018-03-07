@@ -1,6 +1,7 @@
 package com.huel.xgms.app.user.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.user.dao.IUserDao;
 import com.huel.xgms.app.user.service.IUserService;
@@ -29,6 +30,25 @@ public class UserServiceImpl implements IUserService {
             return user;
         }
         user = userDao.getUserInfo(userId);
-        return null;
+        LOG.info("userID：{} 对应的人员信息：{}", userId, JSON.toJSONString(user));
+        return user;
+    }
+
+    @Override
+    public void update(User user) {
+        LOG.debug("更新用户信息，参数传递：{}", JSON.toJSONString(user));
+        if (user == null){
+            return ;
+        }
+        // 搜索该用户的是否存在
+        User userInfo = getUserInfo(user.getId());
+        if (userInfo == null){
+            throw new RuntimeException("更新用户已被删除");
+        }
+
+        long time = System.currentTimeMillis();
+
+        user.setUpdateTime(time);
+        userDao.updateUserInfo(user);
     }
 }

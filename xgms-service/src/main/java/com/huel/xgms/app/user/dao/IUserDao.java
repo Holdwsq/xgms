@@ -48,4 +48,14 @@ public interface IUserDao {
             + " where t.c_delete_flag = " + User.FLAG_DELETE_NO
             + " AND t.c_id = :1")
     User getUserInfo(String userId);
+
+    /**
+     *  更新用户资料
+     * @param user
+     */
+    @SQL("UPDATE #table t SET t.c_name = :1.userName, t.c_hobby = :1.hobby, t.c_preview_id = :1.previewId, t.c_file_id = :1.fileId, "
+            + " t.c_sex = :1.sex, t.d_birthday = :1.birthday, t.c_brief = :1.brief, t.c_school = :1.school, t.n_update_time = :1.updateTime, "
+            + " t.n_age = :1.age, t.c_phone = :1.phone "
+            + " WHERE t.id = :1.userId")
+    void updateUserInfo(User user);
 }
