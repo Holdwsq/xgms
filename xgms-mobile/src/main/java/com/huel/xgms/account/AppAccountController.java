@@ -102,5 +102,4 @@ public class AppAccountController {
             return ResponseBean.createError(e.getMessage());
         }
     }
-
 }
