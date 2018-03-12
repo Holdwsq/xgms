@@ -1,5 +1,6 @@
 package com.huel.xgms.app.user.dao;
 
+import com.huel.xgms.app.user.bean.AuthBean;
 import com.huel.xgms.app.user.bean.User;
 import org.jfaster.mango.annotation.DB;
 import org.jfaster.mango.annotation.Result;

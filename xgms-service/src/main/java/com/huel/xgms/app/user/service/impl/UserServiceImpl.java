@@ -2,9 +2,11 @@ package com.huel.xgms.app.user.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.huel.xgms.app.user.bean.AuthBean;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.user.dao.IUserDao;
 import com.huel.xgms.app.user.service.IUserService;
+import com.huel.xgms.util.UUIDMaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
