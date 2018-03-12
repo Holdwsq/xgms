@@ -1,5 +1,6 @@
 package com.huel.xgms.app.user.service;
 
+import com.huel.xgms.app.user.bean.AuthBean;
 import com.huel.xgms.app.user.bean.User;
 
 /**
