@@ -20,7 +20,7 @@ public interface IRedisOpService {
      * @param key
      * @param obj
      */
-    void set(String key, Object obj);
+    void set(String key, String obj);
 
     /**
      * 保存值到 Hash 表
@@ -28,7 +28,7 @@ public interface IRedisOpService {
      * @param hKey
      * @param hObj
      */
-    void putInHash(String key, String hKey, Object hObj);
+    void putInHash(String key, String hKey, String hObj);
 
     /**
      * check hash表中是否有该 键值

@@ -34,24 +34,27 @@ public class RedisOpServiceImpl implements IRedisOpService {
     @Override
     public String get(String key) {
         Object o = valueOperations.get(key);
-        LOG.debug("redisop 获取 key：{} 对应 value ：{}", key, o);
+        LOG.info("redisop 获取 key：{} 对应 value ：{}", key, o);
         return (String) o;
     }
 
     @Override
-    public void set(String key, Object obj) {
-        String data = JSON.toJSONString(obj);
-        valueOperations.set(key, data);
+    public void set(String key, String obj) {
+        LOG.info("redisop 存放 key:{} , value:{}", key, obj);
+        valueOperations.set(key, obj);
     }
 
     @Override
-    public void putInHash(String key, String hKey, Object hObj) {
-
+    public void putInHash(String key, String hKey, String hObj) {
+        LOG.info("redisp 存入redis Hash数据, key:{}, hkey;{}, hobj:{}", key, hKey, hObj);
+        hashOperations.put(key, hKey, hObj);
     }
 
     @Override
     public boolean hasKeyInHash(String key, String hKey) {
-        return false;
+        Boolean aBoolean = hashOperations.hasKey(key, hKey);
+        LOG.info("hKey:{} in key:{}, result:{}", hKey, key, aBoolean);
+        return aBoolean;
     }
 
     @Override

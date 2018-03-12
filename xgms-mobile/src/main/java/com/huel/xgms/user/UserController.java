@@ -73,7 +73,6 @@ public class UserController {
             return ResponseBean.createError(e.getMessage());
         }
     }
-
     /**
      * 学生认证接口
      * @param bean
