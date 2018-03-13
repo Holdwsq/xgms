@@ -31,7 +31,7 @@ public class GoodsInfo implements Serializable{
     /**
      * 图片内容 可以传过多个图片
      */
-    private List<MultipartFile> pictureList;
+    private List<MultipartFile> files;
     /**
      * 上传到七牛文件服务器后的地址
      */
@@ -89,12 +89,12 @@ public class GoodsInfo implements Serializable{
         this.description = description;
     }
 
-    public List<MultipartFile> getPictureList() {
-        return pictureList;
+    public List<MultipartFile> getFiles() {
+        return files;
     }
 
-    public void setPictureList(List<MultipartFile> pictureList) {
-        this.pictureList = pictureList;
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
     }
 
     public List<String> getPictureUrls() {
