@@ -23,6 +23,9 @@
         <mango.version>1.5.3</mango.version>
         <mysql.version>5.1.43</mysql.version>
         <druid.version>1.1.2</druid.version>
+        <fastjson.version>1.2.37</fastjson.version>
+        <logback.version>1.2.3</logback.version>
+        <junit.version>4.12</junit.version>
     </properties>
     <dependencies>
         <!-- 配置日志打印 -->
@@ -39,19 +42,19 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>${logback.version}</version>
         </dependency>
         <!-- 配置fastjson依赖 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.37</version>
+            <version>${fastjson.version}</version>
         </dependency>
         <!-- Junit依赖 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

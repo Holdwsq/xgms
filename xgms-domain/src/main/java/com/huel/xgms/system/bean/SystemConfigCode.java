@@ -1,0 +1,23 @@
+package com.huel.xgms.system.bean;
+
+/**
+ * 系统配置常量代码
+ * @author wsq
+ * @date 2018/3/13
+ */
+public class SystemConfigCode {
+
+    /**
+     * 七牛文件服务 访问Key
+     */
+    public static final String QINIU_FILE_ACCESSKEY = "QINIU_FILE_ACCESSKEY";
+    /**
+     * 七牛文件服务 秘钥key
+     */
+    public static final String QINIU_FILE_SECRETKEY = "QINIU_FILE_SECRETKEY";
+    /**
+     * 七牛文件服务 存储空间
+     */
+    public static final String QINIU_FILE_BUCKET = "QINIU_FILE_BUCKET";
+
+}
