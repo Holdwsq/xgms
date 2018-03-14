@@ -33,9 +33,9 @@ public class GoodsInfo implements Serializable{
      */
     private List<MultipartFile> files;
     /**
-     * 上传到七牛文件服务器后的地址
+     * 上传到七牛文件服务器后的文件名, 多个文件用“，”隔开
      */
-    private List<String> pictureUrls;
+    private String pictureNames;
     /**
      * 商品价格
      */
@@ -52,6 +52,11 @@ public class GoodsInfo implements Serializable{
      * 更新时间
      */
     private Long updateTime;
+    /**
+     * 商品数量
+     */
+    private int number;
+
     /**
      * 删除标识
      */
@@ -97,12 +102,12 @@ public class GoodsInfo implements Serializable{
         this.files = files;
     }
 
-    public List<String> getPictureUrls() {
-        return pictureUrls;
+    public String getPictureNames() {
+        return pictureNames;
     }
 
-    public void setPictureUrls(List<String> pictureUrls) {
-        this.pictureUrls = pictureUrls;
+    public void setPictureNames(String pictureNames) {
+        this.pictureNames = pictureNames;
     }
 
     public Float getPrice() {
@@ -143,5 +148,13 @@ public class GoodsInfo implements Serializable{
 
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

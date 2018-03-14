@@ -36,7 +36,7 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
     private ISystemConfigService systemConfigService;
 
     @Override
-    public QnPutRet uploadFile(String filePath) {
+    public QnPutRet uploadFile(String filePath, String key) {
         LOG.debug("上传本地文件到七牛服务器：fileUrl:{}", filePath);
         // 构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Zone.zone0());
@@ -47,13 +47,11 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
         String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);
         // 如果是Windows情况下，格式是 D:\\qiniu\\test.png
-        // 默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = null;
-
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
 
         try {
+            // 默认不指定key的情况下，以文件内容的hash值作为文件名
             Response response = uploadManager.put(filePath, key, upToken);
             // 解析上传成功的结果
             DefaultPutRet putRet = JSON.parseObject(response.bodyString(), DefaultPutRet.class);
@@ -67,13 +65,13 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
     }
 
     @Override
-    public QnPutRet uploadBytes(byte[] dataBytes) {
+    public QnPutRet uploadBytes(byte[] dataBytes, String key) {
         ByteArrayInputStream byteInputStream=new ByteArrayInputStream(dataBytes);
-        return uploadInputStream(byteInputStream);
+        return uploadInputStream(byteInputStream, key);
     }
 
     @Override
-    public QnPutRet uploadInputStream(InputStream inputStream) {// 构造一个带指定Zone对象的配置类
+    public QnPutRet uploadInputStream(InputStream inputStream, String key) {// 构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Zone.zone0());
         // ...其他参数参考类注释
 
@@ -84,8 +82,6 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);
 
         // 默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = null;
-
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
 
@@ -103,7 +99,7 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
     }
 
     @Override
-    public QnPutRet uploadFileByBp(String filePath) {
+    public QnPutRet uploadFileByBp(String filePath, String key) {
         // 构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Zone.zone0());
         // ...其他参数参考类注释
@@ -112,8 +108,6 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
         String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
         String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);
-        // 默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = null;
 
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
@@ -124,6 +118,7 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
             FileRecorder fileRecorder = new FileRecorder(localTempDir);
             UploadManager uploadManager = new UploadManager(cfg, fileRecorder);
             try {
+                // 默认不指定key的情况下，以文件内容的hash值作为文件名
                 Response response = uploadManager.put(filePath, key, upToken);
                 // 解析上传成功的结果
                 DefaultPutRet putRet = JSON.parseObject(response.bodyString(), DefaultPutRet.class);
@@ -141,4 +136,5 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         }
         return null;
     }
+
 }

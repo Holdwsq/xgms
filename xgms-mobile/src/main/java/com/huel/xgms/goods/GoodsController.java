@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 /**
- * @author admin
+ * 商品管理（主要 业务）
+ * @author wsq
  * @date 2018/3/12
  */
 @RestController
