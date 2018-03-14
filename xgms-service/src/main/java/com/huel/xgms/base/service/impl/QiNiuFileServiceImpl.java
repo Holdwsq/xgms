@@ -13,6 +13,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.storage.persistent.FileRecorder;
 import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,25 +44,28 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         // ...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
         // ...生成上传凭证，然后准备上传
-        String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
+        /*String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
         String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
-        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);
+        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);*/
+        String accessKey = "d-8M8e0sFioTJDDtCaVu9nUFm-SOYuqOdbbFUSz9";
+        String secretKey = "2SGQixLyQdrcJQ2PLx53yJNNjzxcy7i96yRYjHdI";
+        String bucket = "file-xgms-wsq";
         // 如果是Windows情况下，格式是 D:\\qiniu\\test.png
         Auth auth = Auth.create(accessKey, secretKey);
-        String upToken = auth.uploadToken(bucket);
-
         try {
+            StringMap putPolicy = new StringMap();
+            putPolicy.put("returnBody", QnPutRet.returnBody);
+
+            String upToken = auth.uploadToken(bucket, key, 3600L, putPolicy);
             // 默认不指定key的情况下，以文件内容的hash值作为文件名
             Response response = uploadManager.put(filePath, key, upToken);
             // 解析上传成功的结果
-            DefaultPutRet putRet = JSON.parseObject(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
+            QnPutRet putRet = JSON.parseObject(response.bodyString(), QnPutRet.class);
+            return putRet;
         } catch (QiniuException ex) {
             LOG.error("上传本地文件失败：{}" + ex);
             throw new RuntimeException("上传本地文件失败");
         }
-        return null;
     }
 
     @Override
@@ -77,25 +81,30 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
 
         UploadManager uploadManager = new UploadManager(cfg);
         // ...生成上传凭证，然后准备上传
-        String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
+        /*String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
         String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
-        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);
+        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);*/
+
+        String accessKey = "d-8M8e0sFioTJDDtCaVu9nUFm-SOYuqOdbbFUSz9";
+        String secretKey = "2SGQixLyQdrcJQ2PLx53yJNNjzxcy7i96yRYjHdI";
+        String bucket = "file-xgms-wsq";
 
         // 默认不指定key的情况下，以文件内容的hash值作为文件名
         Auth auth = Auth.create(accessKey, secretKey);
-        String upToken = auth.uploadToken(bucket);
-
         try {
+            StringMap putPolicy = new StringMap();
+            putPolicy.put("returnBody", QnPutRet.returnBody);
+            String upToken = auth.uploadToken(bucket, key, 3600L, putPolicy);
+
             Response response = uploadManager.put(inputStream, key, upToken, null, null);
             // 解析上传成功的结果
-            DefaultPutRet putRet = JSON.parseObject(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
+            QnPutRet qnPutRet = JSON.parseObject(response.bodyString(), QnPutRet.class);
+
+            return qnPutRet;
         } catch (QiniuException ex) {
             LOG.error("上传字节数组失败：{}" + ex);
             throw new RuntimeException("上传字节数组失败");
         }
-        return null;
     }
 
     @Override

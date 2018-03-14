@@ -35,6 +35,9 @@ public interface IGoodsInfoDao {
      * 保存发布的商品信息
      * @param goodsInfoBean
      */
-    @SQL("")
+    @SQL("insert into #table (" + ALL_COLUMNS + ") "
+            + " values "
+            + " (:1.id, :1.userId, :1.title, :1.description, :1.pictureNames, :1.price, :1.type, "
+            + " :1.createTime, :1.updateTime, :1.deleteFlag)")
     void save(GoodsInfo goodsInfoBean);
 }

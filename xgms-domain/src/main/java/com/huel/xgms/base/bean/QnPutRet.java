@@ -12,7 +12,7 @@ public class QnPutRet implements Serializable{
     /**
      * 自定义七牛回复内容
      */
-    public static String returnBody = "\"{\\\"key\\\":\\\"$(key)\\\",\\\"hash\\\":\\\"$(etag)\\\",\\\"bucket\\\":\\\"$(bucket)\\\",\\\"fsize\\\":$(fsize)}\"";
+    public static String returnBody = "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":$(fsize)}";
     /**
      * 七牛返回文件的关键字
      */
