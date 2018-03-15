@@ -1,10 +1,15 @@
 package com.huel.xgms.app.goods.dao;
 
 import com.huel.xgms.app.goods.bean.GoodsInfo;
+import com.huel.xgms.base.bean.PagingQueryBean;
+import com.huel.xgms.util.Contants;
 import org.jfaster.mango.annotation.DB;
 import org.jfaster.mango.annotation.Result;
 import org.jfaster.mango.annotation.Results;
 import org.jfaster.mango.annotation.SQL;
+import org.jfaster.mango.plugin.page.Page;
+
+import java.util.List;
 
 /**
  * 商品信息
@@ -40,4 +45,18 @@ public interface IGoodsInfoDao {
             + " (:1.id, :1.userId, :1.title, :1.description, :1.pictureNames, :1.price, :1.type, "
             + " :1.createTime, :1.updateTime, :1.deleteFlag)")
     void save(GoodsInfo goodsInfoBean);
+
+    /**
+     * 查询商品列表
+     * @param queryBean
+     * @param userId 查询对应人员的发布商品列表
+     * @return
+     */
+    @SQL("select " + ALL_COLUMNS + " from #table t where 1 = 1"
+            + " and t.c_delete_flag = " + Contants.DELETE_FLAG_NO
+            + " #if(:1.id != null) and t.c_id = :1.id #end "
+            + " #if(:1.key != null) and t.c_title like '%'||:1.key||'%' #end"
+            + " #if(:2 != null) and t.c_user_id = :2 #end"
+            + " order by t.l_create_time desc")
+    List<GoodsInfo> list(PagingQueryBean queryBean, String userId, Page page);
 }

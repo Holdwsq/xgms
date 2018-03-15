@@ -1,7 +1,10 @@
 package com.huel.xgms.goods;
 
+import com.alibaba.fastjson.JSON;
 import com.huel.xgms.app.goods.bean.GoodsInfo;
 import com.huel.xgms.app.goods.service.IGoodsService;
+import com.huel.xgms.base.bean.PageData;
+import com.huel.xgms.base.bean.PagingQueryBean;
 import com.huel.xgms.httpbean.ResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +45,27 @@ public class GoodsController {
             return ResponseBean.createSuccess(null);
         }catch (Exception e){
             LOG.error("用户发布商品失败：{}", e);
+            return ResponseBean.createError(e.getMessage());
+        }
+    }
+
+    /**
+     * 分页查询商品列表
+     * @param queryBean
+     * @param request
+     * @return ResponseBean
+     */
+    @RequestMapping(value = "/pub/goods", method = RequestMethod.GET)
+    public ResponseBean getGoodsList(PagingQueryBean queryBean, HttpServletRequest request){
+        LOG.debug("分页获取商品列表, queryBean:{}", JSON.toJSONString(queryBean));
+        try {
+            // 当前登录人员id
+            String userId = (String) request.getAttribute("userId");
+
+            PageData data = goodsService.list(queryBean);
+            return ResponseBean.createSuccess(data);
+        }catch (Exception e){
+            LOG.error("查询商品列表失败：" + e);
             return ResponseBean.createError(e.getMessage());
         }
     }

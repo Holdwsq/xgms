@@ -1,6 +1,8 @@
 package com.huel.xgms.app.goods.service;
 
 import com.huel.xgms.app.goods.bean.GoodsInfo;
+import com.huel.xgms.base.bean.PageData;
+import com.huel.xgms.base.bean.PagingQueryBean;
 
 import java.io.IOException;
 
@@ -15,4 +17,11 @@ public interface IGoodsService {
      * @param goodsInfoBean
      */
     void publishGoods(GoodsInfo goodsInfoBean) throws IOException;
+
+    /**
+     * 获取商品列表
+     * @param queryBean
+     * @return
+     */
+    PageData list(PagingQueryBean queryBean);
 }

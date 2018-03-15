@@ -44,12 +44,9 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         // ...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
         // ...生成上传凭证，然后准备上传
-        /*String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
+        String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
         String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
-        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);*/
-        String accessKey = "d-8M8e0sFioTJDDtCaVu9nUFm-SOYuqOdbbFUSz9";
-        String secretKey = "2SGQixLyQdrcJQ2PLx53yJNNjzxcy7i96yRYjHdI";
-        String bucket = "file-xgms-wsq";
+        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET_XGMS1);
         // 如果是Windows情况下，格式是 D:\\qiniu\\test.png
         Auth auth = Auth.create(accessKey, secretKey);
         try {
@@ -81,13 +78,9 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
 
         UploadManager uploadManager = new UploadManager(cfg);
         // ...生成上传凭证，然后准备上传
-        /*String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
+        String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
         String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
-        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);*/
-
-        String accessKey = "d-8M8e0sFioTJDDtCaVu9nUFm-SOYuqOdbbFUSz9";
-        String secretKey = "2SGQixLyQdrcJQ2PLx53yJNNjzxcy7i96yRYjHdI";
-        String bucket = "file-xgms-wsq";
+        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET_XGMS1);
 
         // 默认不指定key的情况下，以文件内容的hash值作为文件名
         Auth auth = Auth.create(accessKey, secretKey);
@@ -116,7 +109,7 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         // ...生成上传凭证，然后准备上传
         String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
         String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
-        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET);
+        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET_XGMS1);
 
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);

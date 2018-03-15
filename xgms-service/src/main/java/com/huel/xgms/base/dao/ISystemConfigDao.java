@@ -36,20 +36,20 @@ public interface ISystemConfigDao {
     List<SystemConfig> getByType(String type);
 
     /**
-     * 通过Code 获取系统配置
-     * @param code
-     * @return
-     */
-    @SQL("select " + COLUMNS + " from #table where c_config_code = :1 ")
-    SystemConfig getByCode(String code);
-
-    /**
      * 通过配置id获取配置信息
      * @param id
      * @return
      */
     @SQL("select " + COLUMNS + " from #table where c_config_id = :1")
     SystemConfig getById(String id);
+
+    /**
+     * 通过Code 获取系统配置
+     * @param code
+     * @return
+     */
+    @SQL("select " + COLUMNS + " from #table where c_config_code = :1 ")
+    SystemConfig getByCode(String code);
 
     /**
      * 更新系统配置信息
