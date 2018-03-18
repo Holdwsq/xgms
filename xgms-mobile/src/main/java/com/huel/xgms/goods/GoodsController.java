@@ -2,6 +2,7 @@ package com.huel.xgms.goods;
 
 import com.alibaba.fastjson.JSON;
 import com.huel.xgms.app.goods.bean.GoodsInfo;
+import com.huel.xgms.app.goods.bean.Home;
 import com.huel.xgms.app.goods.service.IGoodsService;
 import com.huel.xgms.base.bean.PageData;
 import com.huel.xgms.base.bean.PagingQueryBean;
@@ -28,7 +29,18 @@ public class GoodsController {
     private static final Logger LOG = LoggerFactory.getLogger(GoodsController.class);
     @Autowired
     private IGoodsService goodsService;
-
+    @RequestMapping(value = "/pub/home", method = RequestMethod.GET)
+    public ResponseBean getHomeInfo(HttpServletRequest request){
+        LOG.debug("获取应用主页信息");
+        String userId = (String) request.getAttribute("userId");
+        try{
+            Home data = goodsService.getHomeInfo();
+            return ResponseBean.createSuccess(data);
+        }catch (Exception e){
+            LOG.error("获取应用主页信息失败：{}", e);
+            return ResponseBean.createError(e.getMessage());
+        }
+    }
     @RequestMapping(value = "/pri/goods", method = RequestMethod.POST)
     public ResponseBean publishGoods(GoodsInfo goodsInfoBean, HttpServletRequest request){
         String userId = (String) request.getAttribute("userId");

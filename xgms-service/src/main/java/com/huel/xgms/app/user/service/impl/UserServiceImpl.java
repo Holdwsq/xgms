@@ -2,6 +2,7 @@ package com.huel.xgms.app.user.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.huel.xgms.app.user.bean.AuthBean;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.user.dao.IUserDao;
@@ -11,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -52,5 +57,17 @@ public class UserServiceImpl implements IUserService {
 
         user.setUpdateTime(time);
         userDao.updateUserInfo(user);
+    }
+
+    @Override
+    public List<User> list(Set<String> userIds) {
+        List<User> userList = Lists.newLinkedList();
+        if (CollectionUtils.isEmpty(userIds)){
+            return userList;
+        }
+        // 获取用户列表
+        userList = userDao.list(userIds);
+        LOG.info("通过用户IDs：{}，得到用户信息：{}", JSON.toJSONString(userIds), JSON.toJSONString(userList));
+        return userList;
     }
 }

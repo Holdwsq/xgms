@@ -1,10 +1,14 @@
 package com.huel.xgms.app.goods.service.impl;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.huel.xgms.app.goods.bean.GoodsInfo;
 import com.huel.xgms.app.goods.bean.GoodsInfoBean;
+import com.huel.xgms.app.goods.bean.Home;
 import com.huel.xgms.app.goods.dao.IGoodsInfoDao;
 import com.huel.xgms.app.goods.service.IGoodsService;
+import com.huel.xgms.app.user.bean.User;
+import com.huel.xgms.app.user.service.IUserService;
 import com.huel.xgms.base.bean.PageData;
 import com.huel.xgms.base.bean.PagingQueryBean;
 import com.huel.xgms.base.bean.QnPutRet;
@@ -21,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -29,6 +34,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 商品服务接口实现
@@ -46,6 +52,8 @@ public class GoodsServiceImpl implements IGoodsService{
     private IGoodsInfoDao goodsDao;
     @Autowired
     private ISystemConfigService systemConfigService;
+    @Autowired
+    private IUserService userService;
 
     @Override
     public void publishGoods(GoodsInfo goodsInfoBean) throws IOException {
@@ -82,15 +90,30 @@ public class GoodsServiceImpl implements IGoodsService{
         Page page = new Page(queryBean.getPageNo(), queryBean.getPageSize());
 
         List<GoodsInfo> goodsInfoList = goodsDao.list(queryBean, null, page);
+        pageData.setPageNo(page.getPageNum());
+        pageData.setPageSize(page.getPageSize());
+
+        if (CollectionUtils.isEmpty(goodsInfoList)){
+            pageData.setData(null);
+            return pageData;
+        }
+        // 获取批量的用户信息
         List<GoodsInfoBean> goodsInfoBeanList = Lists.newArrayList();
+        Set<String> userIds = Sets.newHashSet();
+
         for (GoodsInfo goodsInfo : goodsInfoList) {
             GoodsInfoBean bean = new GoodsInfoBean();
-            bean.setCreateTime(goodsInfo.getCreateTime());
-            bean.setId(goodsInfo.getId());
-            bean.setPictureNames(bean.getPictureNames());
-            bean.setPrice(goodsInfo.getPrice());
-            bean.setDescription(goodsInfo.getDescription());
+            BeanUtils.copyProperties(goodsInfo, bean);
+            userIds.add(goodsInfo.getUserId());
+            goodsInfoBeanList.add(bean);
         }
+        List<User> userList = userService.list(userIds);
+        return null;
+    }
+
+    @Override
+    public Home getHomeInfo() {
+
         return null;
     }
 }

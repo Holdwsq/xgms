@@ -1,6 +1,7 @@
 package com.huel.xgms.app.goods.service;
 
 import com.huel.xgms.app.goods.bean.GoodsInfo;
+import com.huel.xgms.app.goods.bean.Home;
 import com.huel.xgms.base.bean.PageData;
 import com.huel.xgms.base.bean.PagingQueryBean;
 
@@ -24,4 +25,10 @@ public interface IGoodsService {
      * @return
      */
     PageData list(PagingQueryBean queryBean);
+
+    /**
+     * 获取主页信息
+     * @return
+     */
+    Home getHomeInfo();
 }

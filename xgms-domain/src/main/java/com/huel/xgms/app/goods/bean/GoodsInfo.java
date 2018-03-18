@@ -56,7 +56,6 @@ public class GoodsInfo implements Serializable{
      * 商品数量
      */
     private int number;
-
     /**
      * 删除标识
      */

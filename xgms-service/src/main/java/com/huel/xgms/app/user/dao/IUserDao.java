@@ -7,6 +7,9 @@ import org.jfaster.mango.annotation.Result;
 import org.jfaster.mango.annotation.Results;
 import org.jfaster.mango.annotation.SQL;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * 用户持久层接口
  * @author wsq
@@ -59,4 +62,14 @@ public interface IUserDao {
             + " t.n_age = :1.age, t.c_phone = :1.phone "
             + " WHERE t.id = :1.id")
     void updateUserInfo(User user);
+
+    /**
+     * 获取用户列表
+     * @param userIds 用户id列表
+     * @return List<User>
+     */
+    @SQL("SELECT" + ALL_COLUMNS + "FROM #table t"
+            + " WHERE t.c_delete_flag = " + User.FLAG_DELETE_NO
+            + " AND t.c_id in (:1)")
+    List<User> list(Set<String> userIds);
 }

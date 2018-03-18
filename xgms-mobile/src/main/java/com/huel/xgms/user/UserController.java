@@ -116,4 +116,10 @@ public class UserController {
             return ResponseBean.createError(e.getMessage());
         }
     }
+
+    @RequestMapping(value = "/pub/testRequest", method = RequestMethod.GET)
+    public ResponseBean testResquest(HttpServletRequest request){
+        LOG.debug("测试android连接");
+        return ResponseBean.createSuccess("This is Server , time : " + System.currentTimeMillis());
+    }
 }
