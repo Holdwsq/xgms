@@ -68,8 +68,8 @@ public interface IUserDao {
      * @param userIds 用户id列表
      * @return List<User>
      */
-    @SQL("SELECT" + ALL_COLUMNS + "FROM #table t"
+    @SQL("SELECT " + ALL_COLUMNS + " FROM #table t"
             + " WHERE t.c_delete_flag = " + User.FLAG_DELETE_NO
-            + " AND t.c_id in (:1)")
+            + " AND t.c_id IN (:1)")
     List<User> list(Set<String> userIds);
 }

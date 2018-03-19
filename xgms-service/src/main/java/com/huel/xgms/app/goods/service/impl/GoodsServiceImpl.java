@@ -1,7 +1,10 @@
 package com.huel.xgms.app.goods.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.huel.xgms.app.goods.bean.BaseBean;
 import com.huel.xgms.app.goods.bean.GoodsInfo;
 import com.huel.xgms.app.goods.bean.GoodsInfoBean;
 import com.huel.xgms.app.goods.bean.Home;
@@ -31,10 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 商品服务接口实现
@@ -107,13 +107,44 @@ public class GoodsServiceImpl implements IGoodsService{
             userIds.add(goodsInfo.getUserId());
             goodsInfoBeanList.add(bean);
         }
+        // 没有用户证明数据有问题，直接返回null
         List<User> userList = userService.list(userIds);
-        return null;
+        if(CollectionUtils.isEmpty(userList)){
+            pageData.setData(null);
+            return pageData;
+        }
+        Map<String, User> map = Maps.newHashMap();
+        for (User user : userList) {
+            if (map.get(user.getId()) != null){
+                continue;
+            }
+            map.put(user.getId(), user);
+        }
+        for (GoodsInfoBean goodsInfoBean : goodsInfoBeanList) {
+            User user = map.get(goodsInfoBean.getUserId());
+            goodsInfoBean.setUserName(user != null ? user.getAccountName() : "无名氏");
+            goodsInfoBean.setUserPortrait(user !=null ? user.getFileId() : null);
+        }
+        pageData.setData(goodsInfoBeanList);
+        pageData.setRecordCount(page.getTotal());
+        LOG.info("分页获取到的商品信息为：" + JSON.toJSONString(goodsInfoBeanList));
+        return pageData;
     }
 
     @Override
     public Home getHomeInfo() {
+        Home home = new Home();
+        /// todo 获取轮播图
+        List<BaseBean> list = Lists.newLinkedList();
+        home.setHomeBanners(list);
+        // todo 获取折扣信息
+        List<BaseBean> discounts = Lists.newLinkedList();
+        home.setHomeDiscounts(discounts);
+        PagingQueryBean queryBean = new PagingQueryBean();
+        PageData pageData = list(queryBean);
+        home.setGoodsInfos(pageData);
 
-        return null;
+        LOG.info("获取主页信息为：{}", JSON.toJSONString(home));
+        return home;
     }
 }

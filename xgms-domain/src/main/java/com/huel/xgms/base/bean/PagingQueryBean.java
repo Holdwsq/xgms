@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class PagingQueryBean implements Serializable{
     private static final long serialVersionUID = -8531096887247004046L;
 
-    public static final int DEFAULT_PAGE_NO = 0;
+    public static final int DEFAULT_PAGE_NO = 1;
     public static final int DEFAULT_PAGE_SIZE = 10;
 
 

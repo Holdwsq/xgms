@@ -8,7 +8,7 @@ import java.util.List;
  * @author wsq
  *
  */
-public class PageData implements Serializable {
+public class PageData<T> implements Serializable {
 
 	private static final long serialVersionUID = -8712832365647808087L;
 
@@ -16,7 +16,7 @@ public class PageData implements Serializable {
 
 	public static int DEFAULT_PAGE_NO = 1;
 	
-	private List<?> data;
+	private List<T> data;
 
 	private int pageNo;
 
@@ -40,7 +40,7 @@ public class PageData implements Serializable {
 		setRecordCount(recordCount);
 	}
 	
-	public PageData(int pageNo, int pageSize, int recordCount, List<?> data) {
+	public PageData(int pageNo, int pageSize, int recordCount, List<T> data) {
 		this(pageNo, pageSize, recordCount);
 		this.data = data;
 	}
@@ -125,11 +125,11 @@ public class PageData implements Serializable {
 		return pageSize * (pageNo - 1);
 	}
 
-	public List<?> getData() {
+	public List<T> getData() {
 		return data;
 	}
 
-	public void setData(List<?> data) {
+	public void setData(List<T> data) {
 		this.data = data;
 	}
 

@@ -1,5 +1,7 @@
 package com.huel.xgms.app.goods.bean;
 
+import com.huel.xgms.base.bean.PageData;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class Home implements Serializable{
     /**
      * 商品信息列表
      */
-    private List<GoodsInfo> goodsInfos;
+    private PageData goodsInfos;
 
     public List<BaseBean> getHomeBanners() {
         return homeBanners;
@@ -40,11 +42,11 @@ public class Home implements Serializable{
         this.homeDiscounts = homeDiscounts;
     }
 
-    public List<GoodsInfo> getGoodsInfos() {
+    public PageData getGoodsInfos() {
         return goodsInfos;
     }
 
-    public void setGoodsInfos(List<GoodsInfo> goodsInfos) {
+    public void setGoodsInfos(PageData goodsInfos) {
         this.goodsInfos = goodsInfos;
     }
 }

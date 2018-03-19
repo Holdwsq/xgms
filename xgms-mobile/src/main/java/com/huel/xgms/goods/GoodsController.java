@@ -27,8 +27,10 @@ import java.io.File;
 @RequestMapping(value = "/api/")
 public class GoodsController {
     private static final Logger LOG = LoggerFactory.getLogger(GoodsController.class);
+
     @Autowired
     private IGoodsService goodsService;
+
     @RequestMapping(value = "/pub/home", method = RequestMethod.GET)
     public ResponseBean getHomeInfo(HttpServletRequest request){
         LOG.debug("获取应用主页信息");
@@ -41,6 +43,7 @@ public class GoodsController {
             return ResponseBean.createError(e.getMessage());
         }
     }
+
     @RequestMapping(value = "/pri/goods", method = RequestMethod.POST)
     public ResponseBean publishGoods(GoodsInfo goodsInfoBean, HttpServletRequest request){
         String userId = (String) request.getAttribute("userId");
