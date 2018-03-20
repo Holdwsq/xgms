@@ -21,7 +21,6 @@ import com.huel.xgms.system.bean.SystemConfigCode;
 import com.huel.xgms.system.service.ISystemConfigService;
 import com.huel.xgms.util.Contants;
 import com.huel.xgms.util.UUIDMaker;
-import com.qiniu.util.StringUtils;
 import org.jfaster.mango.plugin.page.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +28,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -71,7 +71,7 @@ public class GoodsServiceImpl implements IGoodsService{
             /// todo 保存文件信息
             picNames.add(bucketUrl + qnPutRet.getKey());
         }
-        String mulPic = StringUtils.join(picNames, ",");
+        String mulPic = StringUtils.collectionToDelimitedString(picNames, ",");
 
         goodsInfoBean.setPictureNames(mulPic);
         long time = System.currentTimeMillis();
@@ -146,5 +146,23 @@ public class GoodsServiceImpl implements IGoodsService{
 
         LOG.info("获取主页信息为：{}", JSON.toJSONString(home));
         return home;
+    }
+
+    @Override
+    public GoodsInfoBean getDetail(String goodsId) {
+
+        if (StringUtils.isEmpty(goodsId)){
+            return null;
+        }
+        // 获取商品详情
+        GoodsInfoBean bean = goodsDao.getGoodsDetail(goodsId);
+        if (bean == null){
+            throw new RuntimeException("商品不存在或被删除");
+        }
+        // 获取用户信息
+        String userId = bean.getUserId();
+        User userInfo = userService.getUserInfo(userId);
+
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.huel.xgms.app.goods.service;
 
 import com.huel.xgms.app.goods.bean.GoodsInfo;
+import com.huel.xgms.app.goods.bean.GoodsInfoBean;
 import com.huel.xgms.app.goods.bean.Home;
 import com.huel.xgms.base.bean.PageData;
 import com.huel.xgms.base.bean.PagingQueryBean;
@@ -31,4 +32,11 @@ public interface IGoodsService {
      * @return
      */
     Home getHomeInfo();
+
+    /**
+     * 获取单个商品详情
+     * @param goodsId
+     * @return 商品详情
+     */
+    GoodsInfoBean getDetail(String goodsId);
 }

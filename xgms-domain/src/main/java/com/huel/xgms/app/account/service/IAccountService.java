@@ -21,7 +21,7 @@ public interface IAccountService {
      * 用户注册服务
      * @param bean
      */
-    void register(AccountBean bean);
+    User register(AccountBean bean);
 
     /**
      * 检测用户注册的账户名是否合法

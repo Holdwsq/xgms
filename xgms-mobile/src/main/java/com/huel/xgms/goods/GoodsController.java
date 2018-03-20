@@ -2,6 +2,7 @@ package com.huel.xgms.goods;
 
 import com.alibaba.fastjson.JSON;
 import com.huel.xgms.app.goods.bean.GoodsInfo;
+import com.huel.xgms.app.goods.bean.GoodsInfoBean;
 import com.huel.xgms.app.goods.bean.Home;
 import com.huel.xgms.app.goods.service.IGoodsService;
 import com.huel.xgms.base.bean.PageData;
@@ -11,12 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 
 /**
  * 商品管理（主要 业务）
@@ -83,5 +84,20 @@ public class GoodsController {
             LOG.error("查询商品列表失败：" + e);
             return ResponseBean.createError(e.getMessage());
         }
+    }
+    @RequestMapping(value = "/pub/goods/{goodsId}", method = RequestMethod.GET)
+    public ResponseBean getGoodsDetail(@PathVariable String goodsId, HttpServletRequest request){
+        LOG.debug("查看商品详情失败，goodsId：{}", goodsId);
+        try {
+            Assert.hasText(goodsId, "商品ID不能为空");
+            // userId 通过过滤器中进行装配
+            String userId = (String) request.getAttribute("userId");
+            GoodsInfoBean goodsInfoBean = goodsService.getDetail(goodsId);
+            return ResponseBean.createSuccess(goodsInfoBean);
+        }catch (Exception e){
+            LOG.error("查看商品详情失败：{}", e);
+            return ResponseBean.createError(e.getMessage());
+        }
+
     }
 }

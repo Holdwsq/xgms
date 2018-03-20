@@ -17,7 +17,7 @@ import sun.nio.cs.ext.ISCII91;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by admin
+ * 用户信息接口
  * @author wsq
  * @date 2018/3/4
  */

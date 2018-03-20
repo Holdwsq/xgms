@@ -72,8 +72,8 @@ public class AppAccountController {
                 throw new RuntimeException("两次密码不一致");
             }
             // 调用注册接口
-            accountService.register(bean);
-            return  ResponseBean.createSuccess(null);
+            User user = accountService.register(bean);
+            return  ResponseBean.createSuccess(user);
         }catch(Exception e){
             return ResponseBean.createError(e.getMessage());
         }

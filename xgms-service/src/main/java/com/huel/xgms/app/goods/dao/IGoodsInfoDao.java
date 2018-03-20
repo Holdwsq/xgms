@@ -1,6 +1,7 @@
 package com.huel.xgms.app.goods.dao;
 
 import com.huel.xgms.app.goods.bean.GoodsInfo;
+import com.huel.xgms.app.goods.bean.GoodsInfoBean;
 import com.huel.xgms.base.bean.PagingQueryBean;
 import com.huel.xgms.util.Contants;
 import org.jfaster.mango.annotation.DB;
@@ -59,4 +60,14 @@ public interface IGoodsInfoDao {
             + " #if(:2 != null) and t.c_user_id = :2 #end"
             + " order by t.l_create_time desc")
     List<GoodsInfo> list(PagingQueryBean queryBean, String userId, Page page);
+
+    /**
+     * 获取对应id商品详情
+     * @param goodsId 商品id
+     * @return 商品详情
+     */
+    @SQL("select * from t_xgms_goods_info t "
+            + " where t.c_id = :1"
+            + " and t.c_delete_flag = " + Contants.DELETE_FLAG_NO)
+    GoodsInfoBean getGoodsDetail(String goodsId);
 }

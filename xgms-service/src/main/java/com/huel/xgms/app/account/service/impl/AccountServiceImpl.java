@@ -35,7 +35,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public void register(AccountBean bean) {
+    public User register(AccountBean bean) {
         // 检测用户名的合法性
         LOG.debug("用户注册, 参数传递 bean:{}", JSON.toJSONString(bean));
         boolean flag = validateAccountName(bean.getAccountName(), null);
@@ -55,6 +55,7 @@ public class AccountServiceImpl implements IAccountService {
         user.setUpdateTime(currentTimeMillis);
 
         accountDao.register(user);
+        return user;
     }
 
     @Override

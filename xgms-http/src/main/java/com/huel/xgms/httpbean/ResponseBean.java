@@ -5,7 +5,7 @@ package com.huel.xgms.httpbean;
  * @author wsq
  * @date 2018/1/3
  */
-public class ResponseBean {
+public class ResponseBean<T> {
     /**
      * status 响应状态码 0 失败 1 成功
      */
@@ -22,7 +22,7 @@ public class ResponseBean {
     /**
      * 响应数据
      */
-    private Object data;
+    private T data;
 
     /**
      * @description 创建失败响应实体
@@ -68,11 +68,11 @@ public class ResponseBean {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

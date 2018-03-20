@@ -62,8 +62,8 @@ public interface IAccountDao {
      * @param user 账户信息
      */
     @SQL("INSERT INTO #table "
-            + " (c_id, c_account_name, c_pwd, n_create_time, n_update_time)"
-            + " VALUES (:1.id, :1.accountName, :1.pwd, :1.createTime, :1.updateTime)")
+            + " (c_id, c_account_name, c_pwd, c_delete_flag, n_create_time, n_update_time)"
+            + " VALUES (:1.id, :1.accountName, :1.pwd, :1.deleteFlag, :1.createTime, :1.updateTime)")
     void register(User user);
 
     /**

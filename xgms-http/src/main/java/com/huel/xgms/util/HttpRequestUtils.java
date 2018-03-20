@@ -17,6 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -84,7 +85,7 @@ public class HttpRequestUtils {
                 list.add(new BasicNameValuePair(s, paramMap.get(s)));
             }
             // url key-value 传参
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list);
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list,"UTF-8");
             httpPost.setEntity(entity);
             // 解析响应结果
             CloseableHttpResponse resp =  httpClient.execute(httpPost);
@@ -114,7 +115,9 @@ public class HttpRequestUtils {
         try{
             httpClient = HttpClients.createDefault();
             // 拼接为 Get 请求格式
-            url = url + "?" + param;
+            if (!StringUtils.isEmpty(param)){
+                url = url + "?" + param;
+            }
             httpGet = new HttpGet(url);
 
             CloseableHttpResponse resp = httpClient.execute(httpGet);
