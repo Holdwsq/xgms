@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 /**
- * @author admin
- * @description
+ * 系统配置服务层实现
+ * @author wsq
  * @date 2018/3/13
  */
 @Service

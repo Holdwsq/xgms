@@ -1,10 +1,8 @@
 package com.huel.xgms.base.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.huel.xgms.base.service.IRedisOpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;

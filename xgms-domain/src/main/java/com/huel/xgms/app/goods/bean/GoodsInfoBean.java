@@ -26,6 +26,10 @@ public class GoodsInfoBean extends GoodsInfo {
      * 图片请求路径
      */
     private List<String> fileUrls;
+    /**
+     * 评论列表
+     */
+    private List<GoodsCommentBean> commentList;
 
     public String getUserName() {
         return userName;
@@ -57,5 +61,13 @@ public class GoodsInfoBean extends GoodsInfo {
 
     public void setFileUrls(List<String> fileUrls) {
         this.fileUrls = fileUrls;
+    }
+
+    public List<GoodsCommentBean> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<GoodsCommentBean> commentList) {
+        this.commentList = commentList;
     }
 }
