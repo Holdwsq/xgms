@@ -77,7 +77,12 @@ public class GoodsController {
         try {
             // 当前登录人员id
             String userId = (String) request.getAttribute("userId");
-
+            if(queryBean.getPageNo() <= 0 ){
+                queryBean.setPageNo(PagingQueryBean.DEFAULT_PAGE_NO);
+            }
+            if (queryBean.getPageSize() <= 0 ){
+                queryBean.setPageSize(PagingQueryBean.DEFAULT_PAGE_SIZE);
+            }
             PageData data = goodsService.list(queryBean);
             return ResponseBean.createSuccess(data);
         }catch (Exception e){
