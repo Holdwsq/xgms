@@ -85,6 +85,7 @@ public class GoodsController {
             return ResponseBean.createError(e.getMessage());
         }
     }
+
     @RequestMapping(value = "/pub/goods/{goodsId}", method = RequestMethod.GET)
     public ResponseBean getGoodsDetail(@PathVariable String goodsId, HttpServletRequest request){
         LOG.debug("查看商品详情失败，goodsId：{}", goodsId);

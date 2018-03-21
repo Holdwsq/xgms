@@ -161,7 +161,7 @@ public class GoodsServiceImpl implements IGoodsService{
         User userInfo = userService.getUserInfo(userId);
         bean.setUserPortrait(userInfo.getFileId());
         bean.setUserName(userInfo.getAccountName());
-        /// todo 添加该商品的评论
+        /// todo 添加该商品的评论 考虑是否放在同一个请求中
         List<GoodsCommentBean> commentList = Lists.newArrayList();
         bean.setCommentList(commentList);
         return bean;
