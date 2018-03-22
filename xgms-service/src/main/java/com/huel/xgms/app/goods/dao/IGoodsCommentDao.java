@@ -46,4 +46,14 @@ public interface IGoodsCommentDao {
             + " #if(:1.endTime != null) and t.l_update_time <= :1.endTime #end "
             + " ORDER BY t.l_update_time DESC")
     List<GoodsComment> list(PagingQueryBean queryBean, Page page);
+
+    /**
+     * 分页获取该商品的所有评论
+     * @param goodsId 商品id
+     * @param page 分页bean
+     * @return List<GoodsComment>
+     */
+    @SQL("SELECT " + ALL_COLUMNS + "FROM #table t where t.c_delete_flag = " + Contants.DELETE_FLAG_NO
+            + "and t.c_goods_id = :1.id")
+    List<GoodsComment> list(String goodsId, Page page);
 }

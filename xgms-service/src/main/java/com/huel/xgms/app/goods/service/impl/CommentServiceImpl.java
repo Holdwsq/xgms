@@ -52,14 +52,17 @@ public class CommentServiceImpl implements ICommentService {
         }
         LOG.info("获取到的评论列表为：{}" + JSON.toJSONString(comments));
         List<GoodsCommentBean> commentBeans = Lists.newArrayList();
-        Set<String> commentIds = Sets.newHashSet();
         // 遍历顶级评论列表
         for (GoodsComment comment : comments) {
             GoodsCommentBean bean = new GoodsCommentBean();
             BeanUtils.copyProperties(comment, bean);
             commentBeans.add(bean);
-
         }
+        // 获取所有该商品的评论，使用内存寻找下级回复消息
+        /// todo 以后数据量大时，采用分页进行
+        List<GoodsComment> allCommentList = goodsCommentDao.list("", page);
+
+
         return null;
     }
 }
