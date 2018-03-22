@@ -55,7 +55,7 @@ public class GoodsInfo implements Serializable{
     /**
      * 商品数量
      */
-    private int number;
+    private Integer number;
     /**
      * 删除标识
      */
@@ -149,11 +149,11 @@ public class GoodsInfo implements Serializable{
         this.deleteFlag = deleteFlag;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 }

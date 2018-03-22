@@ -15,6 +15,10 @@ public class GoodsComment implements Serializable{
      */
     private String id;
     /**
+     * 评论对应的商品id
+     */
+    private String goodsId;
+    /**
      * 评论人id
      */
     private String commenterId;
@@ -95,5 +99,13 @@ public class GoodsComment implements Serializable{
 
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public String getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
     }
 }

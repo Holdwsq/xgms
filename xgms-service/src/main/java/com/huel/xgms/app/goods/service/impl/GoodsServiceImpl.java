@@ -81,8 +81,8 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public PageData list(PagingQueryBean queryBean) {
-        PageData pageData = new PageData();
+    public PageData<GoodsInfoBean> list(PagingQueryBean queryBean) {
+        PageData<GoodsInfoBean> pageData = new PageData<>();
         // 生成 mongo 的 page对象
         Page page = new Page(queryBean.getPageNo(), queryBean.getPageSize());
 
@@ -138,7 +138,7 @@ public class GoodsServiceImpl implements IGoodsService{
         List<BaseBean> discounts = Lists.newLinkedList();
         home.setHomeDiscounts(discounts);
         PagingQueryBean queryBean = new PagingQueryBean();
-        PageData pageData = list(queryBean);
+        PageData<GoodsInfoBean> pageData = list(queryBean);
         home.setGoodsInfos(pageData);
 
         LOG.info("获取主页信息为：{}", JSON.toJSONString(home));
@@ -152,10 +152,12 @@ public class GoodsServiceImpl implements IGoodsService{
             return null;
         }
         // 获取商品详情
-        GoodsInfoBean bean = goodsDao.getGoodsDetail(goodsId);
-        if (bean == null){
+        GoodsInfo goodsInfo = goodsDao.getGoodsDetail(goodsId);
+        if (goodsId == null){
             throw new RuntimeException("商品不存在或被删除");
         }
+        GoodsInfoBean bean = new GoodsInfoBean();
+        BeanUtils.copyProperties(goodsInfo, bean);
         // 获取用户信息
         String userId = bean.getUserId();
         User userInfo = userService.getUserInfo(userId);

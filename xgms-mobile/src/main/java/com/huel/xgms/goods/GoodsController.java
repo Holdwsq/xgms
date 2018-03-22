@@ -93,7 +93,7 @@ public class GoodsController {
 
     @RequestMapping(value = "/pub/goods/{goodsId}", method = RequestMethod.GET)
     public ResponseBean getGoodsDetail(@PathVariable String goodsId, HttpServletRequest request){
-        LOG.debug("查看商品详情失败，goodsId：{}", goodsId);
+        LOG.debug("查看商品详情，goodsId：{}", goodsId);
         try {
             Assert.hasText(goodsId, "商品ID不能为空");
             // userId 通过过滤器中进行装配

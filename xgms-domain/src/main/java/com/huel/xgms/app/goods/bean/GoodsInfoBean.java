@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class GoodsInfoBean extends GoodsInfo {
     private static final long serialVersionUID = -4740860109851637608L;
-
     /**
      * 发布人名字
      */

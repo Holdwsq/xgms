@@ -25,7 +25,7 @@ public interface IGoodsService {
      * @param queryBean
      * @return
      */
-    PageData list(PagingQueryBean queryBean);
+    PageData<GoodsInfoBean> list(PagingQueryBean queryBean);
 
     /**
      * 获取主页信息

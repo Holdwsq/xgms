@@ -66,8 +66,8 @@ public interface IGoodsInfoDao {
      * @param goodsId 商品id
      * @return 商品详情
      */
-    @SQL("select * from t_xgms_goods_info t "
+    @SQL("select * from #table t "
             + " where t.c_id = :1"
             + " and t.c_delete_flag = " + Contants.DELETE_FLAG_NO)
-    GoodsInfoBean getGoodsDetail(String goodsId);
+    GoodsInfo getGoodsDetail(String goodsId);
 }

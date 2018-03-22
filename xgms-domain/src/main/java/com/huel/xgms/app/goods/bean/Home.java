@@ -24,7 +24,7 @@ public class Home implements Serializable{
     /**
      * 商品信息列表
      */
-    private PageData goodsInfos;
+    private PageData<GoodsInfoBean> goodsInfos;
 
     public List<BaseBean> getHomeBanners() {
         return homeBanners;
@@ -42,11 +42,11 @@ public class Home implements Serializable{
         this.homeDiscounts = homeDiscounts;
     }
 
-    public PageData getGoodsInfos() {
+    public PageData<GoodsInfoBean> getGoodsInfos() {
         return goodsInfos;
     }
 
-    public void setGoodsInfos(PageData goodsInfos) {
+    public void setGoodsInfos(PageData<GoodsInfoBean> goodsInfos) {
         this.goodsInfos = goodsInfos;
     }
 }

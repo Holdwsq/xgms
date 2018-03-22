@@ -2,7 +2,10 @@ package com.huel.xgms.api.goods;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.huel.xgms.app.goods.bean.GoodsInfoBean;
+import com.huel.xgms.app.goods.bean.Home;
 import com.huel.xgms.app.user.bean.User;
+import com.huel.xgms.base.bean.PageData;
 import com.huel.xgms.base.service.impl.QiNiuFileServiceImpl;
 import com.huel.xgms.httpbean.ResponseBean;
 import com.huel.xgms.util.HttpRequestUtils;
@@ -15,9 +18,11 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 import java.io.*;
 import java.nio.charset.Charset;
 
@@ -65,5 +70,47 @@ public class GoodsControllerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取主页信息
+     */
+    @Test
+    public void testGetHomeInfo(){
+        String homeUri = "/pub/home";
+        String homeUrl = BASEURL + homeUri;
+
+        String resp = HttpRequestUtils.get(homeUrl, null);
+        System.out.println("响应结果：" + resp);
+
+
+        ResponseBean<Home> homeResponseBean = JSON.parseObject(resp, new TypeReference<ResponseBean<Home>>() {});
+
+        Home home = homeResponseBean.getData();
+
+        PageData<GoodsInfoBean> goodsInfos = home.getGoodsInfos();
+        Assert.assertNotNull(goodsInfos.getData());
+    }
+
+    /**
+     * 测试商品详情
+     */
+    @Test
+    public void testGetGoodsDetail(){
+        // 商品详情uri
+        String detailUri = "/pub/goods/";
+        String detailUrl = BASEURL + detailUri;
+        // 商品id
+        String goodsId = "05464845baf243b2b10d740d9ff6a6e9";
+        detailUrl += goodsId;
+        String resp = HttpRequestUtils.get(detailUrl, "");
+        ResponseBean<GoodsInfoBean> goodsInfoBeanResponseBean = JSON.parseObject(resp, new TypeReference<ResponseBean<GoodsInfoBean>>() {});
+
+        if (ResponseBean.STATUS_ERROR.equals(goodsInfoBeanResponseBean.getStatus())){
+            System.out.println("获取商品详情失败：" + goodsInfoBeanResponseBean.getMessage());
+        }else {
+            System.out.println("商品详情为：" + JSON.toJSONString(goodsInfoBeanResponseBean.getData()));
+        }
+
     }
 }

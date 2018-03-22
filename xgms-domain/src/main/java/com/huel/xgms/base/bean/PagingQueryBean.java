@@ -56,6 +56,10 @@ public class PagingQueryBean implements Serializable{
     }
 
     public void setPageNo(Integer pageNo) {
+        // 如果起始页小于等于0 设为默认起始页
+        if (pageNo == null || pageNo <= 0){
+            pageNo = DEFAULT_PAGE_NO;
+        }
         this.pageNo = pageNo;
     }
 
@@ -64,6 +68,10 @@ public class PagingQueryBean implements Serializable{
     }
 
     public void setPageSize(Integer pageSize) {
+        // 如果每页数据 <= 0 设为默认数值
+        if (pageSize == null || pageSize <= 0){
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
         this.pageSize = pageSize;
     }
 
