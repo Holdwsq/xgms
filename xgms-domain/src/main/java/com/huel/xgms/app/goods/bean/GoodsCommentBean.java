@@ -18,6 +18,10 @@ public class GoodsCommentBean extends GoodsComment {
      */
     private String commenterPortrait;
     /**
+     * 被回复人用户id， 若{replyCommentId 为空 该字段为null}
+     */
+    private String replyUserId;
+    /**
      * 子回复列表
      */
     private List<GoodsCommentBean> goodsComments;
@@ -44,5 +48,13 @@ public class GoodsCommentBean extends GoodsComment {
 
     public void setGoodsComments(List<GoodsCommentBean> goodsComments) {
         this.goodsComments = goodsComments;
+    }
+
+    public String getReplyUserId() {
+        return replyUserId;
+    }
+
+    public void setReplyUserId(String replyUserId) {
+        this.replyUserId = replyUserId;
     }
 }

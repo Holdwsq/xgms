@@ -34,13 +34,13 @@ public interface IGoodsCommentDao {
             + " l_create_time, l_update_time, c_delete_flag";
 
     /**
-     * 分页获取商品评价
+     * 分页获取顶级的商品评价 => replyCommentId is null
      * @param queryBean 查询bean
      * @param page 分页bean
      * @return List
      */
     @SQL("SELECT * FROM #table t where t.c_delete_flag = " + Contants.DELETE_FLAG_NO
-            + " and t.c_goods_id = :1.id "
+            + " and t.c_goods_id = :1.id and t.c_reply_comment_id is null"
             + " #if(:1.key != null) and t.c_content like '%'||:1.key||'%' #end "
             + " #if(:1.beginTime != null) and t.l_update_time >= :1.beginTime #end "
             + " #if(:1.endTime != null) and t.l_update_time <= :1.endTime #end "
