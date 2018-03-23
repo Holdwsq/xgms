@@ -53,7 +53,34 @@ public interface IGoodsCommentDao {
      * @param page 分页bean
      * @return List<GoodsComment>
      */
-    @SQL("SELECT " + ALL_COLUMNS + "FROM #table t where t.c_delete_flag = " + Contants.DELETE_FLAG_NO
-            + "and t.c_goods_id = :1.id")
+    @SQL("SELECT " + ALL_COLUMNS + " FROM #table t where t.c_delete_flag = " + Contants.DELETE_FLAG_NO
+            + " and t.c_goods_id = :1")
     List<GoodsComment> list(String goodsId, Page page);
+
+    /**
+     * 保存评论信息
+     * @param comment
+     */
+    @SQL("INSERT INTO #table ( "+ ALL_COLUMNS +" )"
+            + " VALUES "
+            + "( :1.id, :1.goodsId, :1.commenterId, :1.content, :1.replyCommentId, :1.createTime, "
+            + " :1.updateTime, :1.deleteFlag )")
+    void save(GoodsComment comment);
+
+    /**
+     * 获取评论信息
+     * @param id
+     * @return
+     */
+    @SQL("SELECT " + ALL_COLUMNS + " from #table t "
+            + "WHERE t.c_id = :1 and t.c_delete_flag = " + Contants.DELETE_FLAG_NO)
+    GoodsComment get(String id);
+
+    /**
+     * 删除评论信息
+     * @param id 评论记录id
+     */
+    @SQL("update #table t set t.c_delete_flag = " + Contants.DELETE_FLAG_YES
+            + " WHERE t.c_id = :1")
+    void delete(String id);
 }

@@ -22,9 +22,13 @@ public class GoodsCommentBean extends GoodsComment {
      */
     private String replyUserId;
     /**
+     * 被回复人名字
+     */
+    private String replyUserName;
+    /**
      * 子回复列表
      */
-    private List<GoodsCommentBean> goodsComments;
+    private List<GoodsCommentBean> subComments;
 
     public String getCommenterName() {
         return commenterName;
@@ -42,12 +46,12 @@ public class GoodsCommentBean extends GoodsComment {
         this.commenterPortrait = commenterPortrait;
     }
 
-    public List<GoodsCommentBean> getGoodsComments() {
-        return goodsComments;
+    public List<GoodsCommentBean> getSubComments() {
+        return subComments;
     }
 
-    public void setGoodsComments(List<GoodsCommentBean> goodsComments) {
-        this.goodsComments = goodsComments;
+    public void setSubComments(List<GoodsCommentBean> subComments) {
+        this.subComments = subComments;
     }
 
     public String getReplyUserId() {
@@ -56,5 +60,13 @@ public class GoodsCommentBean extends GoodsComment {
 
     public void setReplyUserId(String replyUserId) {
         this.replyUserId = replyUserId;
+    }
+
+    public String getReplyUserName() {
+        return replyUserName;
+    }
+
+    public void setReplyUserName(String replyUserName) {
+        this.replyUserName = replyUserName;
     }
 }

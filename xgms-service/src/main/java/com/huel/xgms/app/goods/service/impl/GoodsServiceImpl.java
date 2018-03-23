@@ -102,6 +102,9 @@ public class GoodsServiceImpl implements IGoodsService{
             GoodsInfoBean bean = new GoodsInfoBean();
             BeanUtils.copyProperties(goodsInfo, bean);
             userIds.add(goodsInfo.getUserId());
+            String pictureNames = goodsInfo.getPictureNames();
+            String[] split = pictureNames.split(",");
+            bean.setFileUrls(new ArrayList<>(Arrays.asList(split)));
             goodsInfoBeanList.add(bean);
         }
         // 没有用户证明数据有问题，直接返回null

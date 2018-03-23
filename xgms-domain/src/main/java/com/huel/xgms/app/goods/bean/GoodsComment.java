@@ -33,11 +33,11 @@ public class GoodsComment implements Serializable{
     /**
      * 评论创建时间
      */
-    private long createTime;
+    private Long createTime;
     /**
      * 评论更新时间
      */
-    private long updateTime;
+    private Long updateTime;
     /**
      * 删除标识 0 = 未删除， 1 = 删除
      * 未删除，{@link com.huel.xgms.util.Contants } Delete_Flag_NO
@@ -77,19 +77,19 @@ public class GoodsComment implements Serializable{
         this.replyCommentId = replyCommentId;
     }
 
-    public long getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 
-    public long getUpdateTime() {
+    public Long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
+    public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
     }
 
