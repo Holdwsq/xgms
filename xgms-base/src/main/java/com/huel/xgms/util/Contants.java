@@ -14,4 +14,8 @@ public class Contants {
      * 删除标识
      */
     public static final String DELETE_FLAG_YES = "1";
+    /**
+     * 七牛token过期时间
+     */
+    public static final long QINIU_EXPIRES_TIME = 30 * 60 * 60;
 }

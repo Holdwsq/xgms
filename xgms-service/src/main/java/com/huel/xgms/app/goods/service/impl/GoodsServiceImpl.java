@@ -156,11 +156,15 @@ public class GoodsServiceImpl implements IGoodsService{
         }
         // 获取商品详情
         GoodsInfo goodsInfo = goodsDao.getGoodsDetail(goodsId);
-        if (goodsId == null){
+        if (goodsInfo == null){
             throw new RuntimeException("商品不存在或被删除");
         }
         GoodsInfoBean bean = new GoodsInfoBean();
         BeanUtils.copyProperties(goodsInfo, bean);
+        String pictureNames = goodsInfo.getPictureNames();
+        String[] split = pictureNames.split(",");
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(split));
+        bean.setFileUrls(list);
         // 获取用户信息
         String userId = bean.getUserId();
         User userInfo = userService.getUserInfo(userId);

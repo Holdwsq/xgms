@@ -5,6 +5,7 @@ import com.huel.xgms.base.bean.QnPutRet;
 import com.huel.xgms.base.service.IQiNiuFileService;
 import com.huel.xgms.system.bean.SystemConfigCode;
 import com.huel.xgms.system.service.ISystemConfigService;
+import com.huel.xgms.util.Contants;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
@@ -87,7 +88,7 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         try {
             StringMap putPolicy = new StringMap();
             putPolicy.put("returnBody", QnPutRet.returnBody);
-            String upToken = auth.uploadToken(bucket, key, 3600L, putPolicy);
+            String upToken = auth.uploadToken(bucket, key, Contants.QINIU_EXPIRES_TIME, putPolicy);
 
             Response response = uploadManager.put(inputStream, key, upToken, null, null);
             // 解析上传成功的结果
