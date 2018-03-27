@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-import sun.nio.cs.ext.ISCII91;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,9 +22,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping( value = "/api")
-public class UserController {
+public class AppUserController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AppUserController.class);
     @Autowired
     private IUserService userService;
     @Autowired

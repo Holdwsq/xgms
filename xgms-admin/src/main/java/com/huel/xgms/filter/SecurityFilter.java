@@ -45,17 +45,19 @@ public class SecurityFilter implements Filter {
 		String uri = request.getRequestURI().substring(request.getContextPath().length() + 1);
 		logger.debug(uri);
 		//1.验证是否是公共url地址
-		if(!uri.startsWith(public_pref)) {//非公共地址
+		if(!uri.startsWith(public_pref)) {
+			//非公共地址
 			//2.验证是否有token
 			String authHeader = request.getHeader("Authorization");
 			if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				return;
 			}
-			String token = authHeader.substring(7); // The part after "Bearer "
-			
-			//3.是否登录
-			User user = null;
+			// The part after "Bearer "
+			String token = authHeader.substring(7);
+
+			// 3.是否登录
+			User user;
 			try {
 				Jws<Claims> claims = Jwts.parser().setSigningKey(Constants.JWT_KEY)
 						.parseClaimsJws(token);
@@ -76,11 +78,8 @@ public class SecurityFilter implements Filter {
 	        	response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				return;
 			}
-			
-			if(user == null) {//没有登录用户
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				return;
-			}
+
+			//没有登录用户
 			request.setAttribute("loginUser", user);
 			//4.验证当前请求是否是登陆后不需要验证的地址
 			if(!uri.startsWith(anony_pref)) {

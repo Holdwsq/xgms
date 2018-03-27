@@ -19,8 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 系统用户服务接口实现
+ * @author wsq
+ * @date 2018/3/27
+ */
 @Repository
-public class UserServiceImpl implements UserService {
+public class SysUserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;

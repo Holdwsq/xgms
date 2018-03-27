@@ -3,11 +3,9 @@ package com.huel.xgms.app.user.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.huel.xgms.app.user.bean.AuthBean;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.user.dao.IUserDao;
 import com.huel.xgms.app.user.service.IUserService;
-import com.huel.xgms.util.UUIDMaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,8 @@ import java.util.Set;
  * @date 2018/3/4
  */
 @Service
-public class UserServiceImpl implements IUserService {
-    private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
+public class AppUserServiceImpl implements IUserService {
+    private static final Logger LOG = LoggerFactory.getLogger(AppUserServiceImpl.class);
 
     @Autowired
     private IUserDao userDao;

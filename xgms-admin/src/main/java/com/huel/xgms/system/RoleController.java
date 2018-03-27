@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 系统角色管理
+ * @author wsq
+ */
 @RestController
 @RequestMapping("/admin/sysrole")
 public class RoleController {

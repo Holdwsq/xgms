@@ -4,7 +4,7 @@ import com.huel.xgms.admin.system.bean.Role;
 import com.huel.xgms.admin.system.bean.User;
 import com.huel.xgms.admin.system.service.RoleService;
 import com.huel.xgms.admin.system.service.UserService;
-import com.huel.xgms.httpbean.ResponseBean;
+import com.huel.xgms.httpbean.ResponseEntity;
 import com.huel.xgms.page.Pagination;
 import com.huel.xgms.util.Constants;
 import com.huel.xgms.util.DigestUtil;
@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
+/**
+ * @author wsq
+ */
 @RestController
 @RequestMapping("/admin/sysuser")
-public class UserController {
+public class SysUserController {
 	
 //	private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -55,15 +58,15 @@ public class UserController {
 	}
 	
 	@RequestMapping("addsave")
-	public ResponseBean addsave(User user) {
+	public ResponseEntity addsave(User user) {
 		user.setCreateTime(System.currentTimeMillis());
 		user.setPwd(DigestUtil.MD5Digest(Constants.ADMIN_DEFAULT_PWD, Constants.MD5_SALT));
 		user.setStatus(User.STATUS_ENABLE);
 		user.setType(User.TYPE_NORMAL);
 		if(service.add(user)) {
-			return ResponseBean.createSuccess(null);
+			return ResponseEntity.createSuccess(null);
 		}
-		return ResponseBean.createError("账户已经被使用，请更换");
+		return ResponseEntity.createError("账户已经被使用，请更换");
 	}
 	
 	@RequestMapping("userrole/{userId}")

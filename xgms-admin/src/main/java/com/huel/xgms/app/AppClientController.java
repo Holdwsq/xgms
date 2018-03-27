@@ -3,7 +3,7 @@ package com.huel.xgms.app;
 
 import com.huel.xgms.admin.app.bean.AppClient;
 import com.huel.xgms.admin.app.service.AppClientService;
-import com.huel.xgms.httpbean.ResponseBean;
+import com.huel.xgms.httpbean.ResponseEntity;
 import com.huel.xgms.page.Pagination;
 import com.huel.xgms.util.Constants;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class AppClientController {
 	}
 	
 	@RequestMapping(value = "add", consumes = "multipart/form-data", method = RequestMethod.POST)
-    public ResponseBean add(@RequestParam("apkfile") CommonsMultipartFile apkfile, AppClient app,
+    public ResponseEntity add(@RequestParam("apkfile") CommonsMultipartFile apkfile, AppClient app,
 							HttpServletRequest request) throws IllegalStateException, IOException{
         // 判断文件是否存在
         if (!apkfile.isEmpty()) {
@@ -62,6 +62,6 @@ public class AppClientController {
 					"/" + apkfile.getOriginalFilename());
 			service.save(app);
         }
-        return ResponseBean.createError("文件为空，请重新选择");
+        return ResponseEntity.createError("文件为空，请重新选择");
     }
 }

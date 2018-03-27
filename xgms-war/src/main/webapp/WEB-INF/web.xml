@@ -18,6 +18,9 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>com.huel.xgms.listener.InitListener</listener-class>
+    </listener>
     <!-- 同一编码过滤 UTF-8-->
     <filter>
         <filter-name>setCharacter</filter-name>
@@ -34,6 +37,16 @@
     <filter-mapping>
         <filter-name>setCharacter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 管理端权限验证-->
+    <filter>
+        <filter-name>security</filter-name>
+        <filter-class>com.huel.xgms.filter.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>security</filter-name>
+        <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
     <!-- 配置请求转发控制器 -->
     <servlet>
