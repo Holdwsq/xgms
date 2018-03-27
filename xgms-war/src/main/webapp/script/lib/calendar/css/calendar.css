@@ -1,0 +1,284 @@
+.calendar {
+	font-size: 12px;
+	text-align: center;
+	width: 99%;
+	margin:0 auto;
+	/*height:100%;*/
+	/*background: #f3f3f3;*/
+}
+.handlerTable {
+	width: 100%;
+	background-color: #FFF; margin-top:10px;margin-bottom:10px;
+}
+
+.handlerTableSmall {
+	width: 100%;
+	margin-top:10px;
+	background:  url("../images/rl-top.png") no-repeat 0 0;
+	height: 52px;
+}
+
+.handlerTable400{
+	width: 100%;
+	margin-top:10px;
+	background:  url("../images/rili-400.png") no-repeat 0 0;
+	height: 52px;
+}
+
+.handlerBtn {
+	
+}
+
+.drawTable1 {
+	width: 100%;
+	height:300px;
+	background-color: #939393;
+}
+
+.footer{
+	width: 200px;
+	height:26px;
+	background:  url("../images/rl-di.png") no-repeat 0 0;
+}
+
+.footer400{
+	width: 400px;
+	height:26px;
+	background:  url("../images/rili-400di.png") no-repeat 0 0;
+}
+
+.drawTable1Small {
+	width: 200px;
+	height:300px;
+	background:  url("../images/rl-middle.png") repeat-y 0 0;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.drawTable1400 {
+	width: 400px;
+	height:300px;
+	background:  url("../images/rili-400middle.png") repeat-y 0 0;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.drawTable1Small tbody td{
+	border-bottom: 1px solid #939393; 
+	border-right: 1px solid #939393; 
+}
+
+.drawTable1400 tbody td{
+	border-bottom: 1px solid #939393; 
+	border-right: 1px solid #939393; 
+}
+
+.drawTable1Small thead{
+	background-color: #f3f3f3;
+}
+
+.drawTable1Small thead td {
+	background-color: #f3f3f3;
+	height:25px;
+	text-align:center;
+	color: #252525;
+}
+
+.drawTable1 tbody td{
+	border-bottom: 1px solid #dee4da; 
+	border-right: 1px solid #dee4da; 
+}
+
+.drawTable2 {
+	width: 100%;
+	background-color: #ddd;
+}
+
+.drawTable2 thead td {
+	background-color: #99c2dc;
+	height:25px;
+	text-align:center;
+}
+
+.drawTable1 thead{
+	background-color: #f3f3f3;
+}
+
+.drawTable1 thead td {
+	background-color: #f3f3f3;
+	height:25px;
+	text-align:center;
+	color: #252525;
+}
+
+.showCalendar {
+	
+}
+
+.showCalendar td {
+	font-size: 11px;
+	background-color: #f3f3f3;
+	color: #252525;
+}
+
+.handlerTable {
+	width: 100%;
+	height: 15px;
+}
+
+.Calendar a {
+	color: #1e5494;
+}
+
+.Calendar table {
+	width: 100%;
+	border: 0;
+}
+.daysDiv{
+	float:left;
+	text-align: center;
+	color:#676767;
+	font-family: Microsoft Yahei;
+  font-size:20px;
+  width:30%;
+}
+#contentTopDiv{
+	float:left;
+	width:65%;
+	text-align:left;
+}
+#contentBottomDiv{
+	float:left;
+	width:65%;
+	text-align:left;
+}
+.nextBtn{
+	height:26px;
+	width:21px;
+	border:0;
+	background: url("../images/navigate-right.png");
+	cursor: pointer;
+}
+.preBtn{
+	height:26px;
+	width:21px;
+	border:0;
+	background: url("../images/navigate-left.png");
+	cursor: pointer;
+}
+.preBtnLarge{
+	height:25px;
+	width:40px;
+	border:0;
+	background: url("../images/kaoqindk-tu.png");
+	background-position: 80px 0px; 
+	cursor: pointer;
+}
+.nextBtnLarge{
+	height:25px;
+	width:40px;
+	border:0;
+	background: url("../images/kaoqindk-tu.png");
+	background-position: 40px 0px; 
+	cursor: pointer;
+}
+.nextBtn1{
+	height:19px;
+	width:18px;
+	border:0;
+	background: url("../images/right.png");
+	cursor: pointer;
+}
+.preBtn1{
+	height:19px;
+	width:18px;
+	border:0;
+	background: url("../images/left.png");
+	cursor: pointer;
+}
+.returnTodayBtn{
+	width:38px;
+	height:22px;
+	border:0;
+	background:url("../images/fhby.png");
+	cursor: pointer;
+}
+.changeBtn{
+	width:38px;
+	height:22px;
+	border:0;
+	background:url("../images/rl-jt.png");
+	cursor: pointer;
+}
+/*---------crosswise--------------*/
+.mainTable{
+	width:100%;
+	height:80px;
+	border:1px solid #ddd;
+	background:#f7f7f7;
+}
+.handlerTd{
+	width:100px;
+	text-align: center;
+}
+.dateTd{
+	width:80px;
+	text-align: center;
+}
+.contentTable{
+	width:100%;
+	background: #ccc;
+}
+.contentTable td{
+	background: #fff;
+	text-align: center;
+}
+.preYearBtn{
+	height:24px;
+	width:28px;
+	border:0;
+	background: url("../images/qyn.png");
+	cursor: pointer;
+}
+.preMonthBtn{
+	margin-left:10px;
+	height:24px;
+	width:17px;
+	border:0;
+	background: url("../images/syy.png");
+	cursor: pointer;
+}
+.nextYearBtn{
+	height:24px;
+	width:28px;
+	border:0;
+	background: url("../images/hyn.png");
+	cursor: pointer;
+}
+.nextMonthBtn{
+	margin-right:10px;
+	height:24px;
+	width:17px;
+	border:0;
+	background: url("../images/xyy.png");
+	cursor: pointer;
+}
+.yearSpan{
+	color:#115489;
+	font-family: Microsoft Yahei;
+  font-size:14px;
+}
+.cutDiv{
+	height:46px;
+	width:2px;
+	border:0;
+	background: url("../images/rzsp-rlsd.jpg");
+	float:right;
+}
+.clickBgColor{
+	color:red;
+}
+.todaySpan{
+	color:green;
+	cursor: pointer;
+}

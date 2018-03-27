@@ -1,0 +1,58 @@
+<div>
+	<button class="btn btn-primary" ng-click="add()">发布版本</button>
+	<div>
+		<table ng-table="tableParams" class="table" >
+		    <tr ng-repeat="app in $data">
+		    	<td title="'序号'">{{app.id}}</td>
+		        <td title="'版本号'">{{app.versionCode}}</td>
+		        <td title="'版本名称'">{{app.versionName}}</td>
+		        <td title="'发布时间'">{{app.date | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+		        <td title="'路径'">{{app.url}}</td>
+		        <td title="'描述'">{{app.description}}</td>
+		        <td title="'操作'">
+		        	<button class="btn btn-primary btn-xs" ng-click="del(app)">删除</button>
+		        </td>
+		    </tr>
+		</table>
+		<div>共{{totalCount}}条</div>
+	</div>
+</div>
+<script type="text/ng-template" id="addDialog">
+<form role="form" name="appForm" ng-submit="saveApp(appForm.$valid)" class="form-horizontal" novalidate>
+<div class="ngdialog-message">
+	<h3>发布版本</h3>
+	<div class="col-md-12">
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="versionCode">版本号：</label>
+   			<input name="versionCode" ng-model="app.versionCode" required type="number" 
+   				class="form-control" placeholder="版本号，数值类型，检测使用" autocomplete="off">
+   			<span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="appForm.versionCode.$dirty && appForm.versionCode.$valid"></span>
+		</div>
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="versionName">版本名称：</label>
+   			<input name="versionName" ng-model="app.versionName" required type="text" 
+   				class="form-control" placeholder="版本名称，终端显示" autocomplete="off">
+   			<span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="appForm.versionName.$dirty && appForm.versionName.$valid"></span>
+		</div>
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="description">版本描述：</label>
+			<textarea rows="2" name="description" 
+			ng-model="app.description" class="form-control"
+			placeholder="描述信息，在客户端升级提醒用户的界面上显示"></textarea>
+		</div>
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="versionName">安装包：</label>
+			<input type="file" file-model="apkfile" >
+		</div>
+	</div>
+</div>
+<div class="ngdialog-buttons">
+	<button type="button" class="ngdialog-button ngdialog-button-secondary"
+		ng-click="closeDialog()">取消</button>
+	<button type="submit" class="ngdialog-button ngdialog-button-primary" 
+		ng-disabled="appForm.$invalid" >确定</button>
+</div>
+</form>
+</script>

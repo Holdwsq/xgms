@@ -1,0 +1,103 @@
+<div>
+	<button class="btn btn-primary" ng-click="add()">添加用户</button>
+	<div>
+		<table ng-table="tableParams" class="table" >
+		    <tr ng-repeat="user in $data">
+		        <td title="'账号'">{{user.account}}</td>
+		        <td title="'姓名'">{{user.name}}</td>
+		        <td title="'创建时间'">{{user.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+		        <td title="'类型'">
+		        	<span class="label label-danger" ng-show="user.type == 1">超级管理员</span>
+					<span class="label label-default" ng-show="user.type == 2">普通管理员</span>
+		        </td>
+		        <td title="'状态'">
+		        	<span class="label label-info" ng-show="user.status == 1">正常</span>
+					<span class="label label-danger" ng-show="user.status == 2">禁用</span>
+		        </td>
+		        <td title="'操作'">
+		        	<button class="btn btn-primary btn-xs" ng-click="edit(user)">修改</button>
+		        	&nbsp;&nbsp;
+		        	<button class="btn btn-warning btn-xs" ng-click="resetPwd(user)">重置密码</button>
+		        	&nbsp;&nbsp;
+		        	<button class="btn btn-info btn-xs" ng-show="user.status == 2" ng-click="enable(user)">启用</button>
+		        	<button class="btn btn-danger btn-xs" ng-show="user.status == 1" ng-click="disable(user)">禁用</button>
+		        </td>
+		    </tr>
+		</table>
+		<div>共{{totalCount}}条</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="addDialog">
+<form role="form" name="userForm" ng-submit="saveUser(userForm.$valid)" class="form-horizontal" novalidate>
+<div class="ngdialog-message">
+	<h3>添加用户</h3>
+	<div class="col-md-12">
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="account">账号：</label>
+   			<input name="name" ng-model="user.account" required type="text" 
+   				class="form-control" placeholder="账号" autocomplete="off">
+   			<span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="userForm.account.$dirty && userForm.account.$valid"></span>
+		</div>
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="name">姓名：</label>
+   			<input name="name" ng-model="user.name" required type="text" 
+   				class="form-control" placeholder="姓名" autocomplete="off">
+   			<span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="userForm.name.$dirty && userForm.name.$valid"></span>
+		</div>
+		<div class="form-group" style="magin-bottom:15px;">
+			<div><label class="control-label">角色：</label></div>
+			<div>
+				<label ng-repeat="role in roles">
+    				<input type="checkbox" checklist-model="user.roles" checklist-value="role.id"> {{role.name}}
+  				</label>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ngdialog-buttons">
+	<button type="button" class="ngdialog-button ngdialog-button-secondary"
+		ng-click="closeDialog()">取消</button>
+	<button type="submit" class="ngdialog-button ngdialog-button-primary" 
+		ng-disabled="userForm.$invalid" >确定</button>
+</div>
+</form>
+</script>
+
+<script type="text/ng-template" id="editDialog">
+<form role="form" name="userForm" ng-submit="saveUser(userForm.$valid)" class="form-horizontal" novalidate>
+<div class="ngdialog-message">
+	<h3>添加用户</h3>
+	<div class="col-md-12">
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="account">账号：</label>
+			{{editUser.account}}
+		</div>
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="name">姓名：</label>
+   			<input name="name" ng-model="editUser.name" required type="text" 
+   				class="form-control" placeholder="姓名" autocomplete="off">
+   			<span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="userForm.name.$dirty && userForm.name.$valid"></span>
+		</div>
+		<div class="form-group" style="magin-bottom:15px;">
+			<div><label class="control-label">角色：</label></div>
+			<div>
+				<label ng-repeat="role in roles">
+    				<input type="checkbox" checklist-model="editUser.roles" checklist-value="role.id"> {{role.name}}
+  				</label>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ngdialog-buttons">
+	<button type="button" class="ngdialog-button ngdialog-button-secondary"
+		ng-click="closeDialog()">取消</button>
+	<button type="submit" class="ngdialog-button ngdialog-button-primary" 
+		ng-disabled="userForm.$invalid" >确定</button>
+</div>
+</form>
+</script>

@@ -12,7 +12,7 @@ import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.user.service.IUserService;
 import com.huel.xgms.base.bean.PageData;
 import com.huel.xgms.base.bean.PagingQueryBean;
-import com.huel.xgms.util.Contants;
+import com.huel.xgms.util.Constants;
 import com.huel.xgms.util.UUIDMaker;
 import org.jfaster.mango.plugin.page.Page;
 import org.slf4j.Logger;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.net.CookieHandler;
 import java.util.*;
 
 /**
@@ -114,7 +113,7 @@ public class CommentServiceImpl implements ICommentService {
         comment.setId(id);
         comment.setCreateTime(time);
         comment.setUpdateTime(time);
-        comment.setDeleteFlag(Contants.DELETE_FLAG_NO);
+        comment.setDeleteFlag(Constants.DELETE_FLAG_NO);
 
         goodsCommentDao.save(comment);
         return id;

@@ -7,6 +7,6 @@
 
     <!-- 全路径匹配，用了这一项，就可以实现多路径映射了，否则dispatcher在映射“/admin/*”的时候，后台就不能写“admin”了，这样无法区分“/api/*” -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-        <property name="alwaysUseFullPath" value="true"></property>
+        <property name="alwaysUseFullPath" value="true"/>
     </bean>
 </beans>

@@ -2,7 +2,7 @@ package com.huel.xgms.app.goods.dao;
 
 import com.huel.xgms.app.goods.bean.GoodsComment;
 import com.huel.xgms.base.bean.PagingQueryBean;
-import com.huel.xgms.util.Contants;
+import com.huel.xgms.util.Constants;
 import org.jfaster.mango.annotation.DB;
 import org.jfaster.mango.annotation.Result;
 import org.jfaster.mango.annotation.Results;
@@ -39,7 +39,7 @@ public interface IGoodsCommentDao {
      * @param page 分页bean
      * @return List
      */
-    @SQL("SELECT * FROM #table t where t.c_delete_flag = " + Contants.DELETE_FLAG_NO
+    @SQL("SELECT * FROM #table t where t.c_delete_flag = " + Constants.DELETE_FLAG_NO
             + " and t.c_goods_id = :1.id and t.c_reply_comment_id is null"
             + " #if(:1.key != null) and t.c_content like '%'||:1.key||'%' #end "
             + " #if(:1.beginTime != null) and t.l_update_time >= :1.beginTime #end "
@@ -53,7 +53,7 @@ public interface IGoodsCommentDao {
      * @param page 分页bean
      * @return List<GoodsComment>
      */
-    @SQL("SELECT " + ALL_COLUMNS + " FROM #table t where t.c_delete_flag = " + Contants.DELETE_FLAG_NO
+    @SQL("SELECT " + ALL_COLUMNS + " FROM #table t where t.c_delete_flag = " + Constants.DELETE_FLAG_NO
             + " and t.c_goods_id = :1")
     List<GoodsComment> list(String goodsId, Page page);
 
@@ -73,14 +73,14 @@ public interface IGoodsCommentDao {
      * @return
      */
     @SQL("SELECT " + ALL_COLUMNS + " from #table t "
-            + "WHERE t.c_id = :1 and t.c_delete_flag = " + Contants.DELETE_FLAG_NO)
+            + "WHERE t.c_id = :1 and t.c_delete_flag = " + Constants.DELETE_FLAG_NO)
     GoodsComment get(String id);
 
     /**
      * 删除评论信息
      * @param id 评论记录id
      */
-    @SQL("update #table t set t.c_delete_flag = " + Contants.DELETE_FLAG_YES
+    @SQL("update #table t set t.c_delete_flag = " + Constants.DELETE_FLAG_YES
             + " WHERE t.c_id = :1")
     void delete(String id);
 }

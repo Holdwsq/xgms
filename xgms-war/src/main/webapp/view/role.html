@@ -1,0 +1,71 @@
+<style>
+	.table th{text-align: center;border-bottom: 2px solid #ddd;border-top:none !important;}
+	.table td{text-align: center;border-bottom: 1px solid #ddd;}
+</style>
+<div>
+	<button class="btn btn-primary" ng-click="openAdd()">添加角色</button>
+	<div>
+		<table class="table">
+			<tr>
+				<th>序号</th>
+				<th>名称</th>
+				<th>操作</th>
+			</tr>
+			<tr ng-repeat="role in roles">
+		        <td>{{role.id}}</td>
+		        <td>{{role.name}}</td>
+		        <td>
+		        	<button class="btn btn-info btn-xs" ng-click="editRole(role)">修改</button>
+		        	&nbsp;&nbsp;
+		        	<button class="btn btn-danger btn-xs" ng-click="delRole(role)">删除</button>
+		        </td>
+		    </tr>
+		</table>
+	</div>
+</div>
+
+<script type="text/ng-template" id="roleDialog">
+<form role="form" name="roleForm" ng-submit="saveRole(roleForm.$valid)" class="form-inline" novalidate>
+<div class="ngdialog-message">
+	<h3>添加角色</h3>
+	<div class="col-md-12">
+		<input name="id" type="hidden" ng-model="role.id">
+		<div class="form-group  has-feedback">
+			<label class="control-label" for="name">角色名称：</label>
+   			<input name="name" ng-model="role.name" required type="text" 
+   				class="form-control" placeholder="角色名称" autocomplete="off">
+   			<span class="glyphicon glyphicon-ok form-control-feedback"
+                  ng-show="roleForm.name.$dirty && roleForm.name.$valid"></span>
+		</div>
+		<div class="row" style="margin-top: 15px;">
+			<div class="col-md-3"><label class="control-label">模块：</label></div>
+    		<div class="col-md-9" style="height: 250px;overflow: auto;" 
+    			ivh-treeview="funcs"
+    			ivh-treeview-id-attribute="'id'"
+    			ivh-treeview-label-attribute="'name'"
+    			ivh-treeview-children-attribute="'child'"
+    			ivh-treeview-selected-attribute="'isSelected'"
+    			ivh-treeview-twistie-collapsed-tpl="'<span class=\'glyphicon glyphicon-plus\'></span>'"
+    			ivh-treeview-twistie-expanded-tpl="'<span class=\'glyphicon glyphicon-minus\'></span>'"
+    			ivh-treeview-twistie-leaf-tpl="'<span class=\'glyphicon glyphicon-file\'></span>'"
+    			ivh-treeview-default-selected-state="false"
+				ivh-treeview-expand-to-depth="1">
+    		</div>
+   		</div>
+   		<div>
+			<label class="control-label">权限：</label>
+			<span ng-repeat="parent in funcs">
+				<span class="label label-info" ng-show="parent.isSelected">{{parent.name}}</span>
+				<span class="label label-info" ng-repeat="c in parent.child" ng-show="c.isSelected">{{c.name}}</span>&nbsp;					
+			</span>
+		</div>
+	</div>
+</div>
+<div class="ngdialog-buttons">
+	<button type="button" class="ngdialog-button ngdialog-button-secondary"
+		ng-click="closeRoleDialog()">取消</button>
+	<button type="submit" class="ngdialog-button ngdialog-button-primary" 
+		ng-disabled="roleForm.$invalid" >确定</button>
+</div>
+</form>
+</script>

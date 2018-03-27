@@ -7,7 +7,6 @@ import com.huel.xgms.app.goods.bean.GoodsCommentBean;
 import com.huel.xgms.base.BaseTest;
 import com.huel.xgms.base.bean.PageData;
 import com.huel.xgms.httpbean.ResponseBean;
-import com.huel.xgms.util.Contants;
 import com.huel.xgms.util.HttpRequestUtils;
 import org.junit.Assert;
 import org.junit.Test;

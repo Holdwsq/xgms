@@ -1,7 +1,8 @@
 package com.huel.xgms.app.goods.bean;
 
+import com.huel.xgms.util.Constants;
+
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 商品评论实体
@@ -40,8 +41,8 @@ public class GoodsComment implements Serializable{
     private Long updateTime;
     /**
      * 删除标识 0 = 未删除， 1 = 删除
-     * 未删除，{@link com.huel.xgms.util.Contants } Delete_Flag_NO
-     * 已删除， {@link com.huel.xgms.util.Contants } DELETE_FLAG_YES
+     * 未删除，{@link Constants } Delete_Flag_NO
+     * 已删除， {@link Constants } DELETE_FLAG_YES
      */
     private String deleteFlag;
 

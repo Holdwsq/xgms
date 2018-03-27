@@ -1,0 +1,24 @@
+<div>
+	<div>
+		<table ng-table="tableParams" class="table" >
+		    <tr ng-repeat="empl in $data">
+		        <td title="'姓名'">{{empl.name}}</td>
+		        <td title="'工号'">{{empl.emplid}}</td>
+		        <td title="'部门'">{{empl.deptName}}</td>
+		        <td title="'职位'">{{empl.job}}</td>
+		        <td title="'电话'">{{empl.tel}}</td>
+		        <td title="'手机'">{{empl.mobile}}</td>
+		        <td title="'邮件'">{{empl.email}}</td>
+		        <td title="'操作'">
+		        	<button class="btn btn-primary btn-xs" ng-click="edit(empl)">修改</button>
+		        	&nbsp;&nbsp;
+		        	<button class="btn btn-warning btn-xs" ng-click="resetPwd(empl)">重置密码</button>
+		        	&nbsp;&nbsp;
+		        	<button class="btn btn-info btn-xs" ng-show="empl.utype == 2" ng-click="enable(empl)">启用</button>
+		        	<button class="btn btn-danger btn-xs" ng-show="empl.utype == 1" ng-click="disable(empl)">禁用</button>
+		        </td>
+		    </tr>
+		</table>
+		<div>共{{totalCount}}条</div>
+	</div>
+</div>

@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="zh-cn">
+<head>
+<title>XX管理系统</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<body>
+	<div class="container">
+	
+      <form class="form-signin" role="form" action="#">
+        <h2 class="form-signin-heading">XX管理系统</h2>
+        <div id="infoDiv" class="info">
+			<img src="images/warn.png" style="vertical-align: sub;"/>
+			<span id="read-msg" style="color:#383838;padding-left:4px;">注意保护好您的账户和密码</span>
+		</div>
+        <input name="username" id="username" type="text" class="form-control" placeholder="用户名" autofocus value="" autocomplete="off">
+        <input name="password" id="password" type="password" class="form-control" placeholder="密码" value="">
+        
+        <div class="btn btn-lg btn-primary btn-block" id="btn-login">登录</div>
+        <div id="loading">
+			<img src="images/loading.gif" alt="" height="35px" style="margin:0 auto;" />
+		</div>
+      </form>
+
+    </div> <!-- /container -->
+</body>
+
+<link href="script/lib/ui-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="themes/login.css">
+<script src="script/lib/jquery/jquery-1.11.1.min.js"></script>
+<script>
+    /*
+    * 此函数相当于$(window).ready(function(){
+    *
+    * }),就是让页面dom都加载完成之后再执行
+    * */
+$(function(){
+	var token = window.sessionStorage.getItem("token");
+	if(token) {
+		window.location.href="index.html";
+	}
+	$(document.documentElement).keydown(function(event) {
+		if (event.keyCode == 13 && !$("#btn-login").prop('disabled')) {
+			$("#btn-login").click();
+		}
+	});
+	
+	$('#btn-login').click(btnSubmit);
+});
+
+function wrong(result,isSuccess){
+	if (isSuccess) {
+		$("#infoDiv").css({
+			"border" : "1px solid #ffe57d",
+			"background-color" : "#fff6d2"
+		});
+		$("#infoDiv img").attr("src", "images/warn.png");
+		$("#read-msg").css("color","#383838");
+	} else {
+		$("#infoDiv").css({
+			"border" : "1px solid #e4393c",
+			"background-color" : "#ffebeb"
+		});
+		$("#infoDiv img").attr("src", "images/stop.png");
+		$("#read-msg").css("color","red");
+	}
+
+	$("#read-msg").html(result);
+}
+
+function checkForm() {
+	if ($("#username").val() == '') {
+		wrong('用户名不能为空',false);
+		return false;
+	}
+	
+	if ($("#password").val() == '') {
+		wrong('密码不能为空',false);
+		return false;
+	}
+	return true;
+}
+
+function btnSubmit(){
+	if(checkForm()) {
+		$('#btn-login').hide();
+		$('#loading').show();
+		$.ajax({
+		  	url: "admin/public/login",
+		  	type:'post',
+		  	cache:false,
+		  	data: {
+		  		username: $("#username").val(),
+		  		password: $("#password").val()
+		  	},
+		  	success: function(data) {
+		    	if(data.flag === 1) {
+		    		window.sessionStorage.setItem("token", data.result);
+		    		window.location.href="index.html";
+		    	} else {
+		    		wrong(data.result, false);
+		    		$("#username").val("");
+		    		$("#password").val("");
+		    		$('#btn-login').show();
+					$('#loading').hide();
+		    		return ;
+		    	}
+		  	},
+		  	error:function() {
+		  		wrong("登录失败，请重试",false);
+		  		$('#btn-login').show();
+				$('#loading').hide();
+		  		return ;
+		  	}
+		});
+	}
+}
+</script>
+</html>

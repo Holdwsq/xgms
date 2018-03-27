@@ -16,7 +16,7 @@ import com.huel.xgms.base.service.IQiNiuFileService;
 import com.huel.xgms.base.util.XgmsFileUtils;
 import com.huel.xgms.system.bean.SystemConfigCode;
 import com.huel.xgms.system.service.ISystemConfigService;
-import com.huel.xgms.util.Contants;
+import com.huel.xgms.util.Constants;
 import com.huel.xgms.util.UUIDMaker;
 import org.jfaster.mango.plugin.page.Page;
 import org.slf4j.Logger;
@@ -28,7 +28,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -72,7 +71,7 @@ public class GoodsServiceImpl implements IGoodsService{
 
         goodsInfoBean.setPictureNames(mulPic);
         long time = System.currentTimeMillis();
-        goodsInfoBean.setDeleteFlag(Contants.DELETE_FLAG_NO);
+        goodsInfoBean.setDeleteFlag(Constants.DELETE_FLAG_NO);
         goodsInfoBean.setId(UUIDMaker.generateUUID());
         goodsInfoBean.setUpdateTime(time);
         goodsInfoBean.setCreateTime(time);
