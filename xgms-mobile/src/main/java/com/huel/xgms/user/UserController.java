@@ -22,9 +22,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping( value = "/api")
-public class AppUserController {
+public class UserController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AppUserController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private IUserService userService;
     @Autowired

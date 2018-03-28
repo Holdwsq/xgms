@@ -243,6 +243,19 @@ app.config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider
                 }
             }
         })
+        .state('appuser', {
+            url: 'appuser',
+            templateUrl: 'view/appuser.html',
+            controller: 'appuserCtr',
+            resolve: {
+                deps: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'ngTable',
+                        'script/controllers/appuser.js'
+                    ])
+                }
+            }
+        })
         .state('404', { //主界面
             url: '404',
             template: '<div class="page404"></div>'//TODO 此处设置404页面的图片样式

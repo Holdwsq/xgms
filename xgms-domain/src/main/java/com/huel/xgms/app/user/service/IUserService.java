@@ -2,6 +2,8 @@ package com.huel.xgms.app.user.service;
 
 import com.huel.xgms.app.user.bean.AuthBean;
 import com.huel.xgms.app.user.bean.User;
+import com.huel.xgms.base.bean.PagingQueryBean;
+import com.huel.xgms.page.Pagination;
 
 import java.util.List;
 import java.util.Set;
@@ -31,4 +33,11 @@ public interface IUserService {
      * @return List<User>
      */
     List<User> list(Set<String> userIds);
+
+    /**
+     * 分页获取应用用户
+     * @param queryBean 查询bean
+     * @return Pagination
+     */
+    Pagination listByPage(PagingQueryBean queryBean);
 }

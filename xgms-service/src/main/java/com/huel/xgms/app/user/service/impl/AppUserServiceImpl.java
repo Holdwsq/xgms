@@ -6,12 +6,16 @@ import com.google.common.collect.Lists;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.user.dao.IUserDao;
 import com.huel.xgms.app.user.service.IUserService;
+import com.huel.xgms.base.bean.PagingQueryBean;
+import com.huel.xgms.page.Pagination;
+import org.jfaster.mango.plugin.page.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -67,5 +71,24 @@ public class AppUserServiceImpl implements IUserService {
         userList = userDao.list(userIds);
         LOG.info("通过用户IDs：{}，得到用户信息：{}", JSON.toJSONString(userIds), JSON.toJSONString(userList));
         return userList;
+    }
+
+    @Override
+    public Pagination listByPage(PagingQueryBean queryBean) {
+        Pagination pagination = new Pagination();
+        pagination.setList(new ArrayList());
+        // 如果查询类为空，直接返回
+        if (queryBean == null){
+            return pagination;
+        }
+        Page page = new Page();
+        page.setPageNum(queryBean.getPageNo());
+        page.setPageSize(queryBean.getPageSize());
+        // 分页获取用户
+        List<User> list = userDao.listByPage(queryBean, page);
+
+        pagination.setTotal(page.getTotal());
+        pagination.setList(list);
+        return pagination;
     }
 }

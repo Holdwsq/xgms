@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/api")
-public class AppAccountController {
+public class AccountController {
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

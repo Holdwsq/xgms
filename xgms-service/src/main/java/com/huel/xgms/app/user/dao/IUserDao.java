@@ -2,10 +2,12 @@ package com.huel.xgms.app.user.dao;
 
 import com.huel.xgms.app.user.bean.AuthBean;
 import com.huel.xgms.app.user.bean.User;
+import com.huel.xgms.base.bean.PagingQueryBean;
 import org.jfaster.mango.annotation.DB;
 import org.jfaster.mango.annotation.Result;
 import org.jfaster.mango.annotation.Results;
 import org.jfaster.mango.annotation.SQL;
+import org.jfaster.mango.plugin.page.Page;
 
 import java.util.List;
 import java.util.Set;
@@ -72,4 +74,20 @@ public interface IUserDao {
             + " WHERE t.c_delete_flag = " + User.FLAG_DELETE_NO
             + " AND t.c_id IN (:1)")
     List<User> list(Set<String> userIds);
+
+    /**
+     * 分页获取用户信息
+     * @param queryBean
+     * @param page
+     * @return
+     */
+    @SQL("SELECT " + ALL_COLUMNS + " FROM #table t"
+            + " WHERE t.c_delete_flag = " + User.FLAG_DELETE_NO
+            + " #if(:1.id != null) and t.c_id = :1.id #end "
+            + " #if(:1.state != null) and t.c_auth = :1.state #end "
+            + " #if(:1.key != null) and t.c_account_name like '%'||:1.key||'%' #end "
+            + " #if(:1.beginTime != null) and t.n_create_time >= :1.beginTime #end "
+            + " #if(:1.endTime != null) and t.n_create_time <= :1.endTime #end "
+            + " ORDER BY t.n_create_time DESC")
+    List<User> listByPage(PagingQueryBean queryBean, Page page);
 }
