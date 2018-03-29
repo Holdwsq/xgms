@@ -256,6 +256,19 @@ app.config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider
                 }
             }
         })
+        .state({
+            url : 'appauth',
+            templateUrl : 'view/appauth.html',
+            controller : 'appauthCtr',
+            resolve : {
+                deps : function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'ngTable',
+                        'script/controllers/appauth.js'
+                    ])
+                }
+            }
+        })
         .state('404', { //主界面
             url: '404',
             template: '<div class="page404"></div>'//TODO 此处设置404页面的图片样式
