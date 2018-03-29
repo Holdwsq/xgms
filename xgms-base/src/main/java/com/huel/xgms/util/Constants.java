@@ -27,5 +27,7 @@ public class Constants {
 
     public static final String ADMIN_DEFAULT_PWD = (String) ConfigUtil.getValue("ADMIN.DEFAULT.PWD");
 
+    public static final String APPUSER_DEFAULT_PWD = (String) ConfigUtil.getValue("APPUSER.DEFAULT.PWD");
+
     public static final String APK_UPLOAD_PAT = (String) ConfigUtil.getValue("APK.UPLOAD.PATH");
 }

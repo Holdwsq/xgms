@@ -40,4 +40,35 @@ public interface IUserService {
      * @return Pagination
      */
     Pagination listByPage(PagingQueryBean queryBean);
+
+    /**
+     * 重置用户密码
+     * @param userId 用户id
+     * @param defaultPwd 默认用户密码
+     */
+    void resetPwd(String userId, String defaultPwd);
+
+    /**
+     * 禁用app用户
+     * @param userId
+     */
+    void disable(String userId);
+
+    /**
+     * 启用app用户
+     * @param userId
+     */
+    void enable(String userId);
+
+    /**
+     * 通过后台新增App用户
+     * @param user 用户信息
+     */
+    void addUserByAdmin(User user);
+
+    /**
+     * 管理员修改用户
+     * @param user
+     */
+    void editUser(User user);
 }

@@ -1,26 +1,26 @@
 <div>
-    <!--<button class="btn btn-primary" ng-click="add()">添加用户</button>-->
+    <button class="btn btn-primary" ng-click="add()">添加用户</button>
     <div>
         <table ng-table="tableParams" class="table" >
             <tr ng-repeat="user in $data">
                 <td title="'账号'">{{user.accountName}}</td>
                 <td title="'姓名'">{{user.userName}}</td>
                 <td title="'创建时间'">{{user.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
-                <td title="'类型'">
-                    <span class="label label-danger" ng-show="user.type == 1">超级管理员</span>
-                    <span class="label label-default" ng-show="user.type == 2">普通管理员</span>
+                <td title="'认证状态'">
+                    <span class="label label-danger" ng-show="user.auth == '0'">未认证</span>
+                    <span class="label label-default" ng-show="user.auth == '1'">已认证</span>
                 </td>
                 <td title="'状态'">
-                    <span class="label label-info" ng-show="user.status == 1">正常</span>
-                    <span class="label label-danger" ng-show="user.status == 2">禁用</span>
+                    <span class="label label-info" ng-show="user.deleteFlag == '0'">正常</span>
+                    <span class="label label-danger" ng-show="user.deleteFlag == '1'">禁用</span>
                 </td>
                 <td title="'操作'">
                     <button class="btn btn-primary btn-xs" ng-click="edit(user)">修改</button>
                     &nbsp;&nbsp;
                     <button class="btn btn-warning btn-xs" ng-click="resetPwd(user)">重置密码</button>
                     &nbsp;&nbsp;
-                    <button class="btn btn-info btn-xs" ng-show="user.status == 2" ng-click="enable(user)">启用</button>
-                    <button class="btn btn-danger btn-xs" ng-show="user.status == 1" ng-click="disable(user)">禁用</button>
+                    <button class="btn btn-info btn-xs" ng-show="user.deleteFlag == '1'" ng-click="enable(user)">启用</button>
+                    <button class="btn btn-danger btn-xs" ng-show="user.deleteFlag == '0'" ng-click="disable(user)">禁用</button>
                 </td>
             </tr>
         </table>
@@ -34,26 +34,25 @@
             <h3>添加用户</h3>
             <div class="col-md-12">
                 <div class="form-group  has-feedback">
-                    <label class="control-label" for="account">账号：</label>
-                    <input name="name" ng-model="user.account" required type="text"
+                    <label class="control-label" for="accountName">账号：</label>
+                    <input id="accountName" name="accountName" ng-model="user.accountName" required type="text"
                            class="form-control" placeholder="账号" autocomplete="off">
                     <span class="glyphicon glyphicon-ok form-control-feedback"
                           ng-show="userForm.account.$dirty && userForm.account.$valid"></span>
                 </div>
                 <div class="form-group  has-feedback">
-                    <label class="control-label" for="name">姓名：</label>
-                    <input name="name" ng-model="user.name" required type="text"
+                    <label class="control-label" for="userName">姓名：</label>
+                    <input name="userName" ng-model="user.userName" required type="text"
                            class="form-control" placeholder="姓名" autocomplete="off">
                     <span class="glyphicon glyphicon-ok form-control-feedback"
                           ng-show="userForm.name.$dirty && userForm.name.$valid"></span>
                 </div>
                 <div class="form-group" style="magin-bottom:15px;">
-                    <div><label class="control-label">角色：</label></div>
+                    <div><label class="control-label">认证：</label></div>
                     <div>
-                        <label ng-repeat="role in roles">
-                            <input type="checkbox" checklist-model="user.roles" checklist-value="role.id"> {{role.name}}
+                        <label ng-repeat="auth in auths">
+                            <input type="radio" ng-model="user.auth" value="{{auth.value}}"> {{auth.name}}
                         </label>
-
                     </div>
                 </div>
             </div>
@@ -70,24 +69,24 @@
 <script type="text/ng-template" id="editDialog">
     <form role="form" name="userForm" ng-submit="saveUser(userForm.$valid)" class="form-horizontal" novalidate>
         <div class="ngdialog-message">
-            <h3>添加用户</h3>
+            <h3>修改用户</h3>
             <div class="col-md-12">
                 <div class="form-group  has-feedback">
-                    <label class="control-label" for="account">账号：</label>
-                    {{editUser.account}}
+                    <label class="control-label" for="accountName">账号：</label>
+                    {{editUser.accountName}}
                 </div>
                 <div class="form-group  has-feedback">
-                    <label class="control-label" for="name">姓名：</label>
-                    <input name="name" ng-model="editUser.name" required type="text"
+                    <label class="control-label" for="userName">姓名：</label>
+                    <input name="userName" ng-model="editUser.userName" required type="text"
                            class="form-control" placeholder="姓名" autocomplete="off">
                     <span class="glyphicon glyphicon-ok form-control-feedback"
                           ng-show="userForm.name.$dirty && userForm.name.$valid"></span>
                 </div>
                 <div class="form-group" style="magin-bottom:15px;">
-                    <div><label class="control-label">角色：</label></div>
+                    <div><label class="control-label">认证：</label></div>
                     <div>
-                        <label ng-repeat="role in roles">
-                            <input type="checkbox" checklist-model="editUser.roles" checklist-value="role.id"> {{role.name}}
+                        <label ng-repeat="auth in auths">
+                            <input type="radio" ng-model="editUser.auth" value="{{auth.value}}" ng-checked="{{editUser.auth}} === {{auth.value}}"> {{auth.name}}
                         </label>
                     </div>
                 </div>

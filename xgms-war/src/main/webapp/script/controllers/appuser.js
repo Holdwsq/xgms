@@ -16,7 +16,7 @@ app.add.controller('appuserCtr', function($scope, $http, ngTableParams, ngDialog
             var page = params.page();
             var size = params.count();
             var search = {};
-            search.pageNum = page;
+            search.pageNo = page;
             search.pageSize = size;
             $http.post('admin/appuser/list', search).success(function(data){
                 $scope.totalCount = data.total;
@@ -51,27 +51,27 @@ app.add.controller('appuserCtr', function($scope, $http, ngTableParams, ngDialog
     }
 
     $scope.resetPwd = function(user) {
-        var reset = confirm("确认重置管理员【" + user.name + "】的密码？");
+        var reset = confirm("确认重置用户【" + user.accountName + "】的密码？");
         if(reset) {
-            $http.get("admin/sysuser/reset/" + user.id).success(function(data){
+            $http.get("admin/appuser/reset/" + user.id).success(function(data){
                 alert("重置成功");
             });
         }
     }
 
     $scope.disable = function(user) {
-        var disable = confirm("确认停用管理员【" + user.name + "】的账户？")
+        var disable = confirm("确认停用用户【" + user.accountName + "】的账户？")
         if(disable) {
-            $http.get("admin/sysuser/disable/" + user.id).success(function(data){
+            $http.get("admin/appuser/disable/" + user.id).success(function(data){
                 $scope.refreshTable();
             });
         }
     }
 
     $scope.enable = function(user) {
-        var enable = confirm("确认启用管理员【" + user.name + "】的账户？")
+        var enable = confirm("确认启用用户【" + user.accountName + "】的账户？")
         if(enable) {
-            $http.get("admin/sysuser/enable/" + user.id).success(function(data){
+            $http.get("admin/appuser/enable/" + user.id).success(function(data){
                 $scope.refreshTable();
             });
         }
@@ -79,22 +79,30 @@ app.add.controller('appuserCtr', function($scope, $http, ngTableParams, ngDialog
 });
 
 app.add.controller('userAddCtr', function ($scope, $http, ngDialog) {
-    $scope.roles = [];
+    $scope.auths = [
+        {
+            "name": "未认证",
+            "value": "0"
+        },
+        {
+            "name": "已认证",
+            "value": "1"
+        }
+    ];
     $scope.user = {};
-    $http.get("admin/sysuser/roles").success(function(data){
+    /*$http.get("admin/sysuser/roles").success(function(data){
         $scope.roles = data;
-    })
-
+    })*/
     $scope.closeDialog = function(){
         ngDialog.close();
     }
 
     $scope.saveUser = function(isValid) {
-        if($scope.user.roles.length == 0) {
-            alert("请勾选角色");
+        if(!$scope.user.auth) {
+            alert("请勾选认证状态");
             return;
         }
-        $http.post('admin/sysuser/addsave', $scope.user).success(function(data){
+        $http.post('admin/appuser/addsave', $scope.user).success(function(data){
             if(data.flag == 1) {
                 ngDialog.close();
                 $scope.refreshTable();
@@ -107,21 +115,23 @@ app.add.controller('userAddCtr', function ($scope, $http, ngDialog) {
 });
 
 app.add.controller('userEditCtr', function ($scope, $http, ngDialog) {
-    $scope.roles = [];
-
-    $http.get("admin/sysuser/roles").success(function(data){
-        $scope.roles = data;
-        $http.get("admin/sysuser/userrole/" + $scope.editUser.id).success(function(data){
-            $scope.editUser.roles = data;
-        })
-    })
+    $scope.auths = [
+        {
+            "name": "未认证",
+            "value": "0"
+        },
+        {
+            "name": "已认证",
+            "value": "1"
+        }
+    ];
 
     $scope.saveUser = function(isValid) {
-        if($scope.editUser.roles.length == 0) {
-            alert("请勾选角色");
+        if(!$scope.editUser.auth) {
+            alert("请勾选认证状态");
             return;
         }
-        $http.post('admin/sysuser/editsave', $scope.editUser).success(function(data){
+        $http.post('admin/appuser/editsave', $scope.editUser).success(function(data){
             ngDialog.close();
             $scope.refreshTable();
         });

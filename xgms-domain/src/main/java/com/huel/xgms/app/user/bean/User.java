@@ -15,6 +15,12 @@ public class User implements Serializable{
     public static final String FLAG_DELETE_NO = "0";
     public static final String FLAG_DELETE_YES = "1";
     /**
+     * 认证状态
+     */
+    public static final String AUTH_NO = "0";
+    public static final String AUTH_YES = "1";
+
+    /**
      * 用户id
      */
     private String id;

@@ -8,6 +8,8 @@ import com.huel.xgms.app.user.dao.IUserDao;
 import com.huel.xgms.app.user.service.IUserService;
 import com.huel.xgms.base.bean.PagingQueryBean;
 import com.huel.xgms.page.Pagination;
+import com.huel.xgms.util.Constants;
+import com.huel.xgms.util.UUIDMaker;
 import org.jfaster.mango.plugin.page.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,9 +88,67 @@ public class AppUserServiceImpl implements IUserService {
         page.setPageSize(queryBean.getPageSize());
         // 分页获取用户
         List<User> list = userDao.listByPage(queryBean, page);
-
+        if (!CollectionUtils.isEmpty(list)){
+            // 去掉用户密码
+            for (User user : list) {
+                user.setPwd(null);
+            }
+        }
         pagination.setTotal(page.getTotal());
         pagination.setList(list);
         return pagination;
+    }
+
+    @Override
+    public void resetPwd(String userId, String defaultPwd) {
+        User userInfo = userDao.getUserInfo(userId);
+        if (userInfo == null){
+            LOG.warn("重置密码失败,userID:{}对应的用户不存在", userId);
+            return;
+        }
+        userDao.resetPwd(userId, defaultPwd);
+    }
+
+    @Override
+    public void disable(String userId) {
+        userDao.disable(userId);
+    }
+
+    @Override
+    public void enable(String userId) {
+        userDao.enable(userId);
+    }
+
+    @Override
+    public void addUserByAdmin(User user) {
+        LOG.debug("管理员新增App账户：{}", JSON.toJSONString(user));
+        // 检验账户名是否重复
+        int num = userDao.getUserByName(user.getAccountName(), user.getId());
+        if (num > 0){
+            throw new RuntimeException("用户名已存在");
+        }
+        long time = System.currentTimeMillis();
+        // 生成用户id
+        String id = UUIDMaker.generateUUID();
+        user.setId(id);
+        user.setUpdateTime(time);
+        user.setCreateTime(time);
+        user.setDeleteFlag(User.FLAG_DELETE_NO);
+        // 管理员添加的用户密码为默认密码123456
+        user.setPwd(Constants.APPUSER_DEFAULT_PWD);
+        userDao.addUserByAdmin(user);
+    }
+
+    @Override
+    public void editUser(User user) {
+        LOG.debug("管理员修改App账户：{}", JSON.toJSONString(user));
+        // 检验账户名是否重复
+        int num = userDao.getUserByName(user.getAccountName(), user.getId());
+        if (num > 0){
+            throw new RuntimeException("用户名已存在");
+        }
+        long updateTime = System.currentTimeMillis();
+        user.setUpdateTime(updateTime);
+        userDao.editUser(user);
     }
 }

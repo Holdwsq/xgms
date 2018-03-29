@@ -82,7 +82,6 @@ public interface IUserDao {
      * @return
      */
     @SQL("SELECT " + ALL_COLUMNS + " FROM #table t"
-            + " WHERE t.c_delete_flag = " + User.FLAG_DELETE_NO
             + " #if(:1.id != null) and t.c_id = :1.id #end "
             + " #if(:1.state != null) and t.c_auth = :1.state #end "
             + " #if(:1.key != null) and t.c_account_name like '%'||:1.key||'%' #end "
@@ -90,4 +89,57 @@ public interface IUserDao {
             + " #if(:1.endTime != null) and t.n_create_time <= :1.endTime #end "
             + " ORDER BY t.n_create_time DESC")
     List<User> listByPage(PagingQueryBean queryBean, Page page);
+
+    /**
+     * 重置用户密码
+     * @param userId
+     * @param defaultPwd
+     */
+    @SQL("update #table set c_pwd = :2 where c_id = :1")
+    void resetPwd(String userId, String defaultPwd);
+
+    /**
+     * 禁用用户
+     * @param userId
+     */
+    @SQL("update #table t set t.c_delete_flag = " + User.FLAG_DELETE_YES
+            + " where t.c_id = :1")
+    void disable(String userId);
+
+    /**
+     * 启用用户
+     * @param userId
+     */
+    @SQL("update #table t set t.c_delete_flag = " + User.FLAG_DELETE_NO
+            + " where t.c_id = :1")
+    void enable(String userId);
+
+    /**
+     * 管理员新增用户
+     * @param user
+     */
+    @SQL("INSERT INTO #table (c_id, c_name, c_account_name, c_pwd, c_auth, c_delete_flag, "
+            + " n_create_time, n_update_time)"
+            + " VALUES "
+            + " (:1.id, :1.userName, :1.accountName, :1.pwd, :1.auth, :1.deleteFlag, "
+            + " :1.createTime, :1.updateTime )")
+    void addUserByAdmin(User user);
+
+    /**
+     * 通过账户名获取用户
+     * @param accountName
+     * @param userId
+     * @return
+     */
+    @SQL("SELECT count(1) FROM #table t where t.c_account_name = :1"
+            + " #if(:2 != null) and t.c_id != :2 #end ")
+    int getUserByName(String accountName, String userId);
+
+    /**
+     * 编辑用户
+     * @param user
+     */
+    @SQL("UPDATE #table SET c_name = :1.userName, c_auth = :1.auth, n_update_time = :1.updateTime"
+            + " WHERE c_id = :1.id")
+    void editUser(User user);
 }
