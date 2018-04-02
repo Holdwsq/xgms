@@ -19,8 +19,9 @@ public interface IRedisOpService {
      * 保存List 元素
      * @param key
      * @param obj
+     * @param expireTime
      */
-    void set(String key, String obj);
+    void set(String key, String obj, Long expireTime);
 
     /**
      * 保存值到 Hash 表

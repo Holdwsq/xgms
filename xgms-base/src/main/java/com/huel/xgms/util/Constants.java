@@ -17,7 +17,7 @@ public class Constants {
     /**
      * 七牛token过期时间
      */
-    public static final long QINIU_EXPIRES_TIME = 30 * 60 * 60;
+    public static final long QINIU_TOKEN_EXPIRES_TIME = 24 * 60 * 60;
 
     public static final String JWT_KEY = (String) ConfigUtil.getValue("JWT.KEY");
 

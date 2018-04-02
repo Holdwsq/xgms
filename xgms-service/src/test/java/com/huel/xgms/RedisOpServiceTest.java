@@ -31,7 +31,7 @@ public class RedisOpServiceTest {
         map.put("wang", "wang");
         map.put("class", 7);
         map.put("sex", "男");
-        redisOpService.set(key, JSON.toJSONString(map));
+        redisOpService.set(key, JSON.toJSONString(map), 200L);
         String s = redisOpService.get(key);
         Map x = JSON.parseObject(s, Map.class);
         Set set = x.keySet();

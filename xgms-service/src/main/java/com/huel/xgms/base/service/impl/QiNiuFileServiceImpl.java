@@ -3,9 +3,11 @@ package com.huel.xgms.base.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.huel.xgms.base.bean.QnPutRet;
 import com.huel.xgms.base.service.IQiNiuFileService;
+import com.huel.xgms.base.service.IRedisOpService;
 import com.huel.xgms.system.bean.SystemConfigCode;
 import com.huel.xgms.system.service.ISystemConfigService;
 import com.huel.xgms.util.Constants;
+import com.huel.xgms.util.JedisContants;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
@@ -37,24 +39,22 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
     @Autowired
     private ISystemConfigService systemConfigService;
 
+    @Autowired
+    private IRedisOpService redisOpService;
+
     @Override
     public QnPutRet uploadFile(String filePath, String key) {
         LOG.debug("上传本地文件到七牛服务器：fileUrl:{}", filePath);
-        // 构造一个带指定Zone对象的配置类
-        Configuration cfg = new Configuration(Zone.zone0());
-        // ...其他参数参考类注释
-        UploadManager uploadManager = new UploadManager(cfg);
-        // ...生成上传凭证，然后准备上传
-        String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
-        String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
-        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET_XGMS1);
-        // 如果是Windows情况下，格式是 D:\\qiniu\\test.png
-        Auth auth = Auth.create(accessKey, secretKey);
         try {
+            // 构造一个带指定Zone对象的配置类
+            Configuration cfg = new Configuration(Zone.zone0());
+            // ...其他参数参考类注释
+            UploadManager uploadManager = new UploadManager(cfg);
+
             StringMap putPolicy = new StringMap();
             putPolicy.put("returnBody", QnPutRet.returnBody);
 
-            String upToken = auth.uploadToken(bucket, key, 3600L, putPolicy);
+            String upToken = getUpToken();
             // 默认不指定key的情况下，以文件内容的hash值作为文件名
             Response response = uploadManager.put(filePath, key, upToken);
             // 解析上传成功的结果
@@ -76,24 +76,12 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
     public QnPutRet uploadInputStream(InputStream inputStream, String key) {// 构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Zone.zone0());
         // ...其他参数参考类注释
-
-        UploadManager uploadManager = new UploadManager(cfg);
-        // ...生成上传凭证，然后准备上传
-        String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
-        String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
-        String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET_XGMS1);
-
-        // 默认不指定key的情况下，以文件内容的hash值作为文件名
-        Auth auth = Auth.create(accessKey, secretKey);
         try {
-            StringMap putPolicy = new StringMap();
-            putPolicy.put("returnBody", QnPutRet.returnBody);
-            String upToken = auth.uploadToken(bucket, key, Constants.QINIU_EXPIRES_TIME, putPolicy);
-
+            UploadManager uploadManager = new UploadManager(cfg);
+            String upToken = getUpToken();
             Response response = uploadManager.put(inputStream, key, upToken, null, null);
             // 解析上传成功的结果
             QnPutRet qnPutRet = JSON.parseObject(response.bodyString(), QnPutRet.class);
-
             return qnPutRet;
         } catch (QiniuException ex) {
             LOG.error("上传字节数组失败：{}" + ex);
@@ -140,4 +128,27 @@ public class QiNiuFileServiceImpl implements IQiNiuFileService {
         return null;
     }
 
+    /**
+     * 获取上传Token
+     * @return
+     */
+    private String getUpToken(){
+        // ...生成上传凭证，然后准备上传
+        String token = redisOpService.get(JedisContants.QINIU_TOKEN);
+        if(token == null){
+            // 生成Token 并存入redis
+            String accessKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_ACCESSKEY);
+            String secretKey = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_SECRETKEY);
+            // 默认不指定key的情况下，以文件内容的hash值作为文件名
+            Auth auth = Auth.create(accessKey, secretKey);
+            StringMap putPolicy = new StringMap();
+            putPolicy.put("returnBody", QnPutRet.returnBody);
+            // 文件存储镜像
+            String bucket = systemConfigService.getValueByCode(SystemConfigCode.QINIU_FILE_BUCKET_XGMS1);
+            token = auth.uploadToken(bucket, null, Constants.QINIU_TOKEN_EXPIRES_TIME, putPolicy);
+            // token redis过期时间小于在七牛注册的时间。为了token一定是正常的
+            redisOpService.set(JedisContants.QINIU_TOKEN, token, Constants.QINIU_TOKEN_EXPIRES_TIME - 10);
+        }
+        return token;
+    }
 }

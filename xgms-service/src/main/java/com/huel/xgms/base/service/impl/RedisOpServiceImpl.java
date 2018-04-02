@@ -3,12 +3,14 @@ package com.huel.xgms.base.service.impl;
 import com.huel.xgms.base.service.IRedisOpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * redis 常用操作服务实现
@@ -23,6 +25,7 @@ public class RedisOpServiceImpl implements IRedisOpService {
     private ValueOperations valueOperations;
     private HashOperations hashOperations;
 
+    @Autowired
     public RedisOpServiceImpl(RedisTemplate redisTemplate){
         this.redisTemplate = redisTemplate;
         this.valueOperations = redisTemplate.opsForValue();
@@ -37,9 +40,13 @@ public class RedisOpServiceImpl implements IRedisOpService {
     }
 
     @Override
-    public void set(String key, String obj) {
-        LOG.info("redisop 存放 key:{} , value:{}", key, obj);
-        valueOperations.set(key, obj);
+    public void set(String key, String obj, Long expireTime) {
+        LOG.info("redisop 存放 key:{} , value:{}, expireTime:{}", key, obj, expireTime);
+        if (expireTime != null) {
+            valueOperations.set(key, obj, expireTime, TimeUnit.SECONDS);
+        } else {
+            valueOperations.set(key, obj);
+        }
     }
 
     @Override
