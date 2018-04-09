@@ -29,7 +29,7 @@
 
 	<root level="DEBUG">
 		<appender-ref ref="stdout"/>
-		<!--<appender-ref ref="logfile"/>-->
+		<appender-ref ref="logfile"/>
 	</root>
 </configuration>
 

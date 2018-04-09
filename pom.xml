@@ -26,6 +26,7 @@
         <fastjson.version>1.2.37</fastjson.version>
         <logback.version>1.2.3</logback.version>
         <junit.version>4.12</junit.version>
+        <codec.version>1.10</codec.version>
     </properties>
     <dependencies>
         <!-- 配置日志打印 -->
@@ -56,6 +57,12 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${codec.version}</version>
         </dependency>
     </dependencies>
 </project>

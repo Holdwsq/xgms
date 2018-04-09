@@ -32,7 +32,7 @@ import java.nio.charset.Charset;
  * @date 2018/3/21
  */
 public class GoodsControllerTest {
-    public static final String BASEURL = "http://127.0.0.1:8080/xgms/api";
+    public static final String BASEURL = "http://47.100.38.50:8810/xgms/api";
 
     /**
      * 测试发布商品

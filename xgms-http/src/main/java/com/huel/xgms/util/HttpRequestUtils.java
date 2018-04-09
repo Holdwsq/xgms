@@ -32,6 +32,46 @@ import java.util.Map;
 public class HttpRequestUtils {
     private static Logger LOG = LoggerFactory.getLogger(HttpRequestUtils.class);
     /**
+     * @description post url key-value 请求
+     * @param url
+     * @param paramMap
+     * @return 响应结果
+     */
+    public static String post(String url, Map<String, String> paramMap){
+        LOG.debug("HttpRequestUtils post, 请求参数 url：{}，paramList：{}", url, JSON.toJSONString(paramMap));
+
+        String respData = null;
+        CloseableHttpClient httpClient;
+        HttpPost httpPost;
+        try {
+            httpClient = HttpClients.createDefault();
+            httpPost = new HttpPost(url);
+            // 请求参数 转为NameValuePair List
+            if (paramMap != null){
+                List<NameValuePair> list = new LinkedList<NameValuePair>();
+                for (String s : paramMap.keySet()) {
+                    list.add(new BasicNameValuePair(s, paramMap.get(s)));
+                }
+                // url key-value 传参
+                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list,"UTF-8");
+                httpPost.setEntity(entity);
+            }
+            // 解析响应结果
+            CloseableHttpResponse resp =  httpClient.execute(httpPost);
+            StatusLine statusLine = resp.getStatusLine();
+            if (statusLine != null && statusLine.getStatusCode() == HttpStatus.SC_OK){
+                // 请求成功
+                respData = EntityUtils.toString(resp.getEntity(), "UTF-8");
+            }else{
+                // 请求失败
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return respData;
+    }
+
+    /**
      * @description
      * @param url
      * @param param
@@ -57,44 +97,6 @@ public class HttpRequestUtils {
                 respData = EntityUtils.toString(entity, "UTF-8");
             }else{
                 // 请求失败处理
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return respData;
-    }
-
-    /**
-     * @description post url key-value 请求
-     * @param url
-     * @param paramMap
-     * @return 响应结果
-     */
-    public static String post(String url, Map<String, String> paramMap){
-        LOG.debug("HttpRequestUtils post, 请求参数 url：{}，paramList：{}", url, JSON.toJSONString(paramMap));
-
-        String respData = null;
-        CloseableHttpClient httpClient;
-        HttpPost httpPost;
-        try {
-            httpClient = HttpClients.createDefault();
-            httpPost = new HttpPost(url);
-            // 请求参数 转为NameValuePair List
-            List<NameValuePair> list = new LinkedList<NameValuePair>();
-            for (String s : paramMap.keySet()) {
-                list.add(new BasicNameValuePair(s, paramMap.get(s)));
-            }
-            // url key-value 传参
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list,"UTF-8");
-            httpPost.setEntity(entity);
-            // 解析响应结果
-            CloseableHttpResponse resp =  httpClient.execute(httpPost);
-            StatusLine statusLine = resp.getStatusLine();
-            if (statusLine != null && statusLine.getStatusCode() == HttpStatus.SC_OK){
-                // 请求成功
-                respData = EntityUtils.toString(resp.getEntity(), "UTF-8");
-            }else{
-                // 请求失败
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -30,4 +30,10 @@ public class Constants {
     public static final String APPUSER_DEFAULT_PWD = (String) ConfigUtil.getValue("APPUSER.DEFAULT.PWD");
 
     public static final String APK_UPLOAD_PAT = (String) ConfigUtil.getValue("APK.UPLOAD.PATH");
+
+    public static final String SMS_ACCOUNT_SID = (String) ConfigUtil.getValue("SMS.ACCOUNT.SID");
+
+    public static final String SMS_AUTH_TOKEN = (String) ConfigUtil.getValue("SMS_AUTH_TOKEN");
+
+    public static final String SMS_BASE_URL = (String) ConfigUtil.getValue("SMS.BASE.URL");
 }

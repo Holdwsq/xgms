@@ -73,4 +73,9 @@ public class AccountServiceImpl implements IAccountService {
     public void modifyPwd(String userId, String pwd) {
         accountDao.modifyPwd(userId, pwd);
     }
+
+    @Override
+    public void register(String phone) {
+        //
+    }
 }

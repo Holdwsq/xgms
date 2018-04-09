@@ -37,4 +37,10 @@ public interface IAccountService {
      * @param pwd
      */
     void modifyPwd(String userId, String pwd);
+
+    /**
+     * 手机号注册
+     * @param phone
+     */
+    void register(String phone);
 }

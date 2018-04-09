@@ -55,7 +55,7 @@ public class GoodsController {
             Assert.notEmpty(goodsInfoBean.getFiles(), "请上传图片");
             Assert.notNull(goodsInfoBean.getType(), "商品类别不能为空");
 
-            goodsInfoBean.setUserId(userId);
+            goodsInfoBean.setUserId(userId == null ? "4fd544049f974767b08e22829c7cb188" : userId);
             goodsService.publishGoods(goodsInfoBean);
 
             return ResponseBean.createSuccess(null);

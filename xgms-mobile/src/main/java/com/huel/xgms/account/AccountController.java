@@ -2,10 +2,13 @@ package com.huel.xgms.account;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 import com.huel.xgms.app.account.bean.AccountBean;
 import com.huel.xgms.app.account.service.IAccountService;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.httpbean.ResponseBean;
+import com.huel.xgms.util.HttpRequestUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用户账户接口
@@ -101,5 +108,39 @@ public class AccountController {
         }catch (Exception e){
             return ResponseBean.createError(e.getMessage());
         }
+    }
+    @RequestMapping(value = "/pub/account/register2", method = RequestMethod.POST)
+    public ResponseBean register(String phone, HttpServletRequest request){
+        LOG.debug("手机号注册，phone：{}" + phone);
+        try{
+            if (StringUtils.isEmpty(phone)){
+                throw new IllegalArgumentException("手机号为空");
+            }
+            accountService.register(phone);
+            return ResponseBean.createSuccess(null);
+        }catch(Exception e){
+            return ResponseBean.createError(e.getMessage());
+        }
+    }
+    public static void main(String[] args){
+        String accountSid = "0cb1bf682d854c96ab9fa03efe05542a";
+        String code = "12345";
+        String smsContent = "【校购】尊敬的用户，您好，您正在注册校购App应用，验证码为"
+                + code + ",若非本人操作请忽略此短信";
+        String to = "15670099659";
+        String sig = "6ce9f65383e840a5959f5bd9ce7a05c8";
+        Map<String, String> maps = Maps.newHashMap();
+        maps.put("accountSid", accountSid);
+        maps.put("smsContent", smsContent);
+        maps.put("to", to);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = dateFormat.format(new Date());
+        maps.put("timestamp", timestamp);
+        sig = DigestUtils.md5Hex(accountSid + sig + timestamp);
+        maps.put("sig", accountSid + sig + timestamp);
+        String data = "accountSid=" + accountSid + "&smsContent=" + smsContent + "&to=" + to
+                + "&timestamp=" + timestamp + "&sig=" + sig;
+        String url = "https://api.miaodiyun.com/20150822/industrySMS/sendSMS";
+        HttpRequestUtils.post(url + "?" + data, null);
     }
 }
