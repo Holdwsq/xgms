@@ -9,7 +9,6 @@ public interface ISmsService {
     /**
      * 发送注册验证码
      * @param phone
-     * @return
      */
-    String sendRegisterCode(String phone);
+    void sendRegisterCode(String phone);
 }

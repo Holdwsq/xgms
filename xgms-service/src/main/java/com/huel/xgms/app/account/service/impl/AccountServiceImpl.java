@@ -6,11 +6,17 @@ import com.huel.xgms.app.account.bean.AccountBean;
 import com.huel.xgms.app.account.service.IAccountService;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.account.dao.IAccountDao;
+import com.huel.xgms.base.dao.IPinRecordDao;
+import com.huel.xgms.base.service.ISmsService;
+import com.huel.xgms.util.DateUtil;
+import com.huel.xgms.util.RegexUtil;
 import com.huel.xgms.util.UUIDMaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * 应用账户服务
@@ -24,6 +30,10 @@ public class AccountServiceImpl implements IAccountService {
 
     @Autowired
     private IAccountDao accountDao;
+    @Autowired
+    private ISmsService smsService;
+    @Autowired
+    private IPinRecordDao pinRecordDao;
 
     @Override
     public User login(String accountName, String pwd) {
@@ -75,7 +85,31 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public void register(String phone) {
-        //
+    public void register(final String phone) {
+        // 验证手机号是否正确
+        boolean mobile = RegexUtil.isMobile(phone);
+        if (!mobile){
+            throw new IllegalArgumentException("手机号不正确");
+        }
+        // 通过手机号获取用户信息
+        User userByPhone = accountDao.getUserByPhone(phone);
+        if (userByPhone != null){
+            throw new IllegalArgumentException("该手机号已被注册");
+        }
+        // 获取该手机号当天注册次数
+        Date startTime = DateUtil.getTodayStartTime();
+        Date endTime = DateUtil.getTodayEndTime();
+        int count = pinRecordDao.countByTime(phone, startTime.getTime(), endTime.getTime());
+        if (count >= 5){
+            throw new IllegalArgumentException("当天注册机会已用完");
+        }
+
+        // 另起一个线程去发送验证码
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                smsService.sendRegisterCode(phone);
+            }
+        }).start();
     }
 }

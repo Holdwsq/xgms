@@ -125,8 +125,7 @@ public class AccountController {
     public static void main(String[] args){
         String accountSid = "0cb1bf682d854c96ab9fa03efe05542a";
         String code = "12345";
-        String smsContent = "【校购】尊敬的用户，您好，您正在注册校购App应用，验证码为"
-                + code + ",若非本人操作请忽略此短信";
+        String smsContent = "【校购】尊敬的用户，您好，您正在注册校购App应用，验证码为："+ code +"，若非本人操作请忽略此短信";
         String to = "15670099659";
         String sig = "6ce9f65383e840a5959f5bd9ce7a05c8";
         Map<String, String> maps = Maps.newHashMap();

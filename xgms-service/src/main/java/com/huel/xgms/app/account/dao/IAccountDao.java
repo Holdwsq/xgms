@@ -73,4 +73,12 @@ public interface IAccountDao {
      */
     @SQL("UPDATE #table t SET t.c_pwd = :2 where t.c_id = :1")
     void modifyPwd(String userId, String pwd);
+
+    /**
+     * 通过手机号获取用户信息
+     * @param phone 手机号
+     * @return 用户详情信息
+     */
+    @SQL("select " + ALL_COLUMNS + " from #table t where t.c_phone = :1")
+    User getUserByPhone(String phone);
 }
