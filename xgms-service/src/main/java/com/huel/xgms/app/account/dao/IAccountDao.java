@@ -62,8 +62,8 @@ public interface IAccountDao {
      * @param user 账户信息
      */
     @SQL("INSERT INTO #table "
-            + " (c_id, c_account_name, c_pwd, c_delete_flag, n_create_time, n_update_time)"
-            + " VALUES (:1.id, :1.accountName, :1.pwd, :1.deleteFlag, :1.createTime, :1.updateTime)")
+            + " (c_id, c_account_name, c_pwd, c_delete_flag, n_create_time, n_update_time, c_auth)"
+            + " VALUES (:1.id, :1.accountName, :1.pwd, :1.deleteFlag, :1.createTime, :1.updateTime, :1.auth)")
     void register(User user);
 
     /**
@@ -81,4 +81,11 @@ public interface IAccountDao {
      */
     @SQL("select " + ALL_COLUMNS + " from #table t where t.c_phone = :1")
     User getUserByPhone(String phone);
+
+    /**
+     * 增加手机注册的用户
+     * @param user 用户信息
+     */
+    @SQL("insert into #table (c_id, c_account_name, c_phone, c_delete_flag, n_create_time, n_update_time, c_auth)")
+    void addPhoneUser(User user);
 }

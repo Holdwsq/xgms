@@ -6,8 +6,10 @@ import com.huel.xgms.app.account.bean.AccountBean;
 import com.huel.xgms.app.account.service.IAccountService;
 import com.huel.xgms.app.user.bean.User;
 import com.huel.xgms.app.account.dao.IAccountDao;
+import com.huel.xgms.base.bean.PinRecordBean;
 import com.huel.xgms.base.dao.IPinRecordDao;
 import com.huel.xgms.base.service.ISmsService;
+import com.huel.xgms.util.Constants;
 import com.huel.xgms.util.DateUtil;
 import com.huel.xgms.util.RegexUtil;
 import com.huel.xgms.util.UUIDMaker;
@@ -63,6 +65,7 @@ public class AccountServiceImpl implements IAccountService {
         long currentTimeMillis = System.currentTimeMillis();
         user.setCreateTime(currentTimeMillis);
         user.setUpdateTime(currentTimeMillis);
+        user.setAuth(User.AUTH_NO);
 
         accountDao.register(user);
         return user;
@@ -85,7 +88,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public void register(final String phone) {
+    public void getRegCode(final String phone) {
         // 验证手机号是否正确
         boolean mobile = RegexUtil.isMobile(phone);
         if (!mobile){
@@ -111,5 +114,25 @@ public class AccountServiceImpl implements IAccountService {
                 smsService.sendRegisterCode(phone);
             }
         }).start();
+    }
+    @Override
+    public void verifyCode(PinRecordBean bean) {
+        if (bean == null){
+            return;
+        }
+        // 通过手机号获取，最新的验证码信息
+        PinRecordBean lastPin = pinRecordDao.getLastPin(bean.getPhone());
+        if (lastPin == null){
+            throw new IllegalArgumentException("验证码错误，请重新输入");
+        }
+        // 判断验证码是否过期
+        long expiryTime = lastPin.getExpiryTime();
+        if (expiryTime > System.currentTimeMillis()){
+            throw new IllegalArgumentException("验证码失效，请重新输入");
+        }
+        Integer code = lastPin.getCode();
+        if (!code.equals(bean.getCode())){
+            throw new IllegalArgumentException("验证码错误，请重新输入");
+        }
     }
 }

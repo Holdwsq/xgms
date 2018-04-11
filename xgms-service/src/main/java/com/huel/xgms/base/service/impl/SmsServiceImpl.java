@@ -2,11 +2,14 @@ package com.huel.xgms.base.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.huel.xgms.base.bean.PinRecordBean;
 import com.huel.xgms.base.bean.SmsRespBean;
+import com.huel.xgms.base.dao.IPinRecordDao;
 import com.huel.xgms.base.service.ISmsService;
 import com.huel.xgms.util.Constants;
 import com.huel.xgms.util.HttpRequestUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +28,9 @@ public class SmsServiceImpl implements ISmsService{
      */
     public static String opIndustry = "/industrySMS/sendSMS";
 
+    @Autowired
+    private IPinRecordDao pinRecordDao;
+
     @Override
     public void sendRegisterCode(String phone) {
         String url = Constants.SMS_BASE_URL + opIndustry;
@@ -37,11 +43,23 @@ public class SmsServiceImpl implements ISmsService{
         String data = "accountSid=" + Constants.SMS_ACCOUNT_SID + "&to=" + phone
                 + "&smsContent=" + tmpSmsContent + commonParam;
 
-        String resp = HttpRequestUtils.post(url + data, null);
+        String resp = HttpRequestUtils.post(url + "?" + data, null);
 
         if (!StringUtils.isEmpty(resp)){
             SmsRespBean smsRespBean = JSON.parseObject(resp, SmsRespBean.class);
-
+            if (SmsRespBean.SUCCESS.equals(smsRespBean.getRespCode())){
+                // 发送成功，将发送验证码入库
+                long time = System.currentTimeMillis();
+                // 过期时间是30分钟
+                long expiryTime = time + Constants.PIN_EXPIRES_TIME;
+                PinRecordBean bean = new PinRecordBean();
+                bean.setCode(code);
+                bean.setExpiryTime(expiryTime);
+                bean.setPhone(phone);
+                bean.setSendTime(time);
+                bean.setDeleteFlag(Constants.DELETE_FLAG_NO);
+                pinRecordDao.save(bean);
+            }
         }
     }
 

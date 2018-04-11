@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.huel.xgms.app.account.bean.AccountBean;
 import com.huel.xgms.app.account.service.IAccountService;
 import com.huel.xgms.app.user.bean.User;
+import com.huel.xgms.base.bean.PinRecordBean;
 import com.huel.xgms.httpbean.ResponseBean;
 import com.huel.xgms.util.HttpRequestUtils;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -109,16 +111,42 @@ public class AccountController {
             return ResponseBean.createError(e.getMessage());
         }
     }
-    @RequestMapping(value = "/pub/account/register2", method = RequestMethod.POST)
-    public ResponseBean register(String phone, HttpServletRequest request){
+    @RequestMapping(value = "/pub/account/regCode", method = RequestMethod.GET)
+    public ResponseBean getRegCode(String phone, HttpServletRequest request){
         LOG.debug("手机号注册，phone：{}" + phone);
         try{
             if (StringUtils.isEmpty(phone)){
                 throw new IllegalArgumentException("手机号为空");
             }
-            accountService.register(phone);
+            accountService.getRegCode(phone);
             return ResponseBean.createSuccess(null);
         }catch(Exception e){
+            return ResponseBean.createError(e.getMessage());
+        }
+    }
+    @RequestMapping(value = "/pub/account/verifyCode", method = RequestMethod.POST)
+    public ResponseBean verifyCode(PinRecordBean bean, HttpServletRequest request){
+        // 验证码确认注册
+        LOG.debug("验证码注册，phone：{}， 验证码：【{}】", bean.getPhone(), bean.getCode());
+        try{
+            if (StringUtils.isEmpty(bean.getPhone())){
+                throw new IllegalArgumentException("手机号为空");
+            }
+            if (bean.getCode() == 0){
+                throw new IllegalArgumentException("验证码错误,请重新输入");
+            }
+            accountService.verifyCode(bean);
+            return ResponseBean.createSuccess(null);
+        }catch (Exception e){
+            return ResponseBean.createError(e.getMessage());
+        }
+    }
+    @RequestMapping(value = "/pub/account/register2", method = RequestMethod.POST)
+    public ResponseBean register2(String phone, String pwd, HttpServletRequest request){
+        // 用户手机注册
+        try{
+            return ResponseBean.createSuccess(null);
+        }catch (Exception e){
             return ResponseBean.createError(e.getMessage());
         }
     }

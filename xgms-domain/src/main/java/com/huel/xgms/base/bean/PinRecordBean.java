@@ -21,7 +21,7 @@ public class PinRecordBean implements Serializable{
     /**
      * 验证码
      */
-    private String code;
+    private Integer code;
     /**
      * 发送时间
      */
@@ -30,6 +30,10 @@ public class PinRecordBean implements Serializable{
      * 过期时间
      */
     private long expiryTime;
+    /**
+     * 删除标识
+     */
+    private String deleteFlag;
 
     public int getId() {
         return id;
@@ -47,11 +51,11 @@ public class PinRecordBean implements Serializable{
         this.phone = phone;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -69,5 +73,13 @@ public class PinRecordBean implements Serializable{
 
     public void setExpiryTime(long expiryTime) {
         this.expiryTime = expiryTime;
+    }
+
+    public String getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(String deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 }

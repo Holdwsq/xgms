@@ -76,6 +76,16 @@ public class AccountControllerTest extends BaseTest{
         Assert.assertNotNull(post);
 
     }
+    @Test
+    public void testRegister2(){
+        String url = baseUrl + "/pub/account/register2";
+        String phone = "18697343261";
+        HashMap<String, String> map = Maps.newHashMap();
+        map.put("phone", phone);
+
+        String resp = HttpRequestUtils.post(url, map);
+        System.out.println(resp);
+    }
     public static void main(String... args){
         System.out.println(System.currentTimeMillis());
     }

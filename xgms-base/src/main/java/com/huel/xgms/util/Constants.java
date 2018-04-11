@@ -33,7 +33,15 @@ public class Constants {
 
     public static final String SMS_ACCOUNT_SID = (String) ConfigUtil.getValue("SMS.ACCOUNT.SID");
 
-    public static final String SMS_AUTH_TOKEN = (String) ConfigUtil.getValue("SMS_AUTH_TOKEN");
+    public static final String SMS_AUTH_TOKEN = (String) ConfigUtil.getValue("SMS.AUTH.TOKEN");
 
     public static final String SMS_BASE_URL = (String) ConfigUtil.getValue("SMS.BASE.URL");
+    /**
+     * 短信验证码过期时间 30分钟
+     */
+    public static final long PIN_EXPIRES_TIME = 30 * 60 * 1000;
+    /**
+     * 系统用户名前缀
+     */
+    public static final String APP_USER_PREFIX = (String) ConfigUtil.getValue("APP_USER_PREFIX");
 }

@@ -2,6 +2,7 @@ package com.huel.xgms.app.account.service;
 
 import com.huel.xgms.app.account.bean.AccountBean;
 import com.huel.xgms.app.user.bean.User;
+import com.huel.xgms.base.bean.PinRecordBean;
 
 /**
  * @description 客服端用户登录服务层
@@ -39,8 +40,14 @@ public interface IAccountService {
     void modifyPwd(String userId, String pwd);
 
     /**
-     * 手机号注册
+     * 手机号注册，发送验证码
      * @param phone
      */
-    void register(String phone);
+    void getRegCode(String phone);
+
+    /**
+     * 用户验证验证码
+     * @param bean
+     */
+    void verifyCode(PinRecordBean bean);
 }
